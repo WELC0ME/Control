@@ -1,0 +1,83 @@
+[
+	{
+		'name': 'energy',
+	},
+	{
+		'name': 'water',
+	},
+	{
+		'name': 'food',
+	},
+	{
+		'name': 'apple',
+	},
+	{
+		'name': 'cider',
+	},
+	{
+		'name': 'wheat',
+	},
+	{
+		'name': 'flour',
+	},
+	{
+		'name': 'fuel',
+	},
+	{
+		'name': 'planks',
+	},
+	{
+		'name': 'bread',
+	},
+	{
+		'name': 'iron',
+	},
+	{
+		'name': 'iron_ore',
+	},
+	{
+		'name': 'tools',
+	},
+	{
+		'name': 'bricks',
+	},
+	{
+		'name': 'steel',
+	},
+	{
+		'name': 'leather',
+	},
+	{
+		'name': 'hide',
+	},
+	{
+		'name': 'salt',
+	},
+	{
+		'name': 'clay',
+	},
+	{
+		'name': 'paper',
+	},
+	{
+		'name': 'books',
+	},
+	{
+		'name': 'quartz',
+	},
+	{
+		'name': 'glass',
+	},
+	{
+		'name': 'battery',
+	},
+	{
+		'name': 'frame',
+	},
+	{
+		'name': 'gold',
+	},
+	{
+		'name': 'stone',
+	},
+]	

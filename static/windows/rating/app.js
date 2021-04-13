@@ -1,9 +1,12 @@
 update() {
     axios.get(this.server + 'rating')
         .then(response => {
-            this.info = response['data']['rating'];
+            this.info.data = {
+                'rating': response.data.rating,
+                'accepted': true,
+            };
         })
         .catch(error => {
-            this.info = {};
+            this.info.data.accepted = false;
         })
 },

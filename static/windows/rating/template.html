@@ -1,7 +1,12 @@
 <div>
-    <ul>
-        <li v-for="(user, index) in info['rating']">
-            {{ index }}. {{ user['nickname'] }} - {{ user['coins'] }} coins
-        </li>
-    </ul>
+    <div v-if="info.data.accepted">
+        <ul>
+            <li v-for="(user, index) in info.data.rating">
+                {{ index + 1 }}. {{ user.nickname }} - {{ user.coins }} coins
+            </li>
+        </ul>
+    </div>
+    <div v-else>
+        Error
+    </div>
 </div>

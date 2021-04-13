@@ -1,22 +1,29 @@
 update() {
     axios.get(this.server + 'productions')
         .then(response => {
-            this.info = response['data']['productions'];
+            this.info.data = {
+                'productions': response.data.productions,
+                'accepted': true,
+            };
         })
         .catch(error => {
-            this.info = {};
+            this.info.data.accepted = false;
         })
 },
 
 start(index) {
     axios.get(this.server + 'start_production', {
-        'production_id': index,
+        params: {
+            'production_id': index,
+        }
     })
 },
 
 promote(index, value) {
     axios.get(this.server + 'promote_production', {
-        'production_id': index,
-        'value': value,
+        params: {
+            'production_id': index,
+            'value': value,
+        }
     })
 },

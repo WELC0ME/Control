@@ -1,21 +1,26 @@
 <div>
-    <ul>
-        <li v-for="(production, index) in info['productions']">
-            {{ production['type'] }}
-            {{ production['input_resources'] }}
-            {{ production['output_resources'] }}
-            {{ production['working_time'] }}
-            {{ production['time'] }}
-            {{ production['action_price'] }}
-            <buttton v-on:click="start(index)">
-                Start
-            </buttton>
-            <buttton v-on:click="promote(index, 1)">
-                +
-            </buttton>
-            <buttton v-on:click="promote(index, -1)">
-                -
-            </buttton>
-        </li>
-    </ul>
+    <div v-if="info.data.accepted">
+        <ul>
+            <li v-for="(production, index) in info.data.productions">
+                {{ production.type }}
+                {{ production.input_resources }}
+                {{ production.output_resources }}
+                {{ production.working_time }}
+                {{ production.time }}
+                {{ production.action_price }}
+                <buttton v-on:click="start(index)">
+                    Start
+                </buttton>
+                <buttton v-on:click="promote(index, 1)">
+                    +
+                </buttton>
+                <buttton v-on:click="promote(index, -1)">
+                    -
+                </buttton>
+            </li>
+        </ul>
+    </div>
+    <div v-else>
+        Error
+    </div>
 </div>

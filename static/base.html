@@ -6,32 +6,34 @@
       <!--<link rel="stylesheet" href="static/style.css">-->
       <title>Control</title>
    </head>
-   <body id="app">
-      <div>
+   <body>
+      <div id='app'>
          <div>
-            <img src="static/images/logo.png">
-         </div>
-         <div>
-            <a class="link" href="/rating">Rating</a>
-         </div>
-         <div>
-            <a class="link" href="/productions">Productions</a>
-         </div>
-         <div>
-            <a class="link" href="/stock_exchange">Stock exchange</a>
-         </div>
-         <div v-if="user['authorized']">
             <div>
-               <a href="/profile">{{ user['nickname'] }}</a>
+               <img src="static/images/logo.png">
+            </div>
+            <div>
+               <a class="link" href="/rating">Rating</a>
+            </div>
+            <div>
+               <a class="link" href="/productions">Productions</a>
+            </div>
+            <div>
+               <a class="link" href="/stock_exchange">Stock exchange</a>
+            </div>
+            <div v-if="info.user.authorized">
+               <div>
+                  <a href="/profile">{{ info.user.nickname }}</a>
+               </div>
+            </div>
+            <div v-else>
+               <div>
+                  <a href="/login">Login</a>
+               </div>
             </div>
          </div>
-         <div v-else>
-            <div>
-               <a href="/login">Login</a>
-            </div>
-         </div>
+         __TEMPLATE__
       </div>
-      __TEMPLATE__
       <script src="https://unpkg.com/vue@next"></script>
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">
       </script>

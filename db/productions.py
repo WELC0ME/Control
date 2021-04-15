@@ -1,6 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
-
 from .db_session import SqlAlchemyBase
 
 
@@ -9,8 +7,6 @@ class Production(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     type = sqlalchemy.Column(sqlalchemy.Integer,
                              sqlalchemy.ForeignKey('production_types.id'),

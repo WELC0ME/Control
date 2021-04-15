@@ -1,6 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
-
 from .db_session import SqlAlchemyBase
 
 
@@ -11,5 +9,3 @@ class ProductionType(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
 
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
-

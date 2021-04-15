@@ -1,10 +1,8 @@
 import sqlalchemy
-from sqlalchemy import orm
-
 from .db_session import SqlAlchemyBase
 
 
-class RecourceList(SqlAlchemyBase):
+class ResourceList(SqlAlchemyBase):
     __tablename__ = 'resource_list'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -14,5 +12,3 @@ class RecourceList(SqlAlchemyBase):
                                     sqlalchemy.ForeignKey("resources.id"))
 
     number = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
-

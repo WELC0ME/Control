@@ -1,6 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
-
 from .db_session import SqlAlchemyBase
 
 
@@ -25,6 +23,3 @@ class Deal(SqlAlchemyBase):
                                         nullable=True)
 
     output_number = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-# 	input_number [int]
-# 	output_resource [int -> Resource.id]
-# 	output_number [int]

@@ -1,6 +1,6 @@
 from flask import jsonify, request
-# from db.db_session import create_session
-# from db.__all_models import *
+from db.db_session import create_session
+from db.__all_models import *
 import config
 
 
@@ -69,7 +69,6 @@ def start_production():
     production = db_sess.query(Production).get(request.json['production_id'])
     user = db_sess.query(User).get(config.USER_ID)
     user.start_production(production)
-    production.start_production(user)
     return jsonify({
         'result': 'OK'
     })

@@ -4,7 +4,7 @@ from sqlalchemy import orm
 from .db_session import SqlAlchemyBase
 
 
-class Recource(SqlAlchemyBase):
+class ProductionType(SqlAlchemyBase):
     __tablename__ = 'production_types'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,

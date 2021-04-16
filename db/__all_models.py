@@ -4,3 +4,6 @@ from . import resource_list
 from . import deals
 from . import productions
 from . import user
+from .users_to_bets import UsersToBets
+from .bet import Bet
+from .user import User

@@ -4,10 +4,10 @@
 		'title': 'Well',
 		'input': [('energy', 1)],
 		'output': [('water', 4)],
-		'working_time': ('00:00:01', '00:00:03'),
-		'life_time': ('00:23:00', '01:01:00'),
+		'working_time': ('00:00:00:00:01', '00:00:00:00:03'),
+		'life_time': ('00:00:00:23:00', '00:00:01:01:00'),
 		'interaction_price': 1,
-		'interaction_time_shift': ('00:01:00', '00:02:00'),
+		'interaction_time_shift': ('00:00:00:01:00', '00:00:00:02:00'),
 		'count': 100,
 	},
 	{

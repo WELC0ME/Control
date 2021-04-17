@@ -1,5 +1,7 @@
 import sqlalchemy
 from .db_session import SqlAlchemyBase
+from sqlalchemy import orm
+from time_manager import TimeManager
 
 
 class Production(SqlAlchemyBase):
@@ -11,6 +13,7 @@ class Production(SqlAlchemyBase):
     type = sqlalchemy.Column(sqlalchemy.Integer,
                              sqlalchemy.ForeignKey('production_types.id'),
                              nullable=True)
+    # production_type = orm.relation()
     input_resources = sqlalchemy.Column(sqlalchemy.Integer,
                                         sqlalchemy.ForeignKey(
                                             'resource_list.id'), nullable=True)
@@ -45,9 +48,10 @@ class Production(SqlAlchemyBase):
         }
 
     def promote(self):  # добавление жизни
-        pass
+        self.life_time = TimeManager().fold(self.life_time, '00:00:00:05:00')
 
     def apply_pattern(self, data):
+        # from time_manager import TimeManager
         self.type = data['type']
         self.input_resources = data['input']
         self.name = data['title']
@@ -55,7 +59,7 @@ class Production(SqlAlchemyBase):
         self.action_shift = data['interaction_time_shift']
 
     def is_outdated(self):
-        pass
+        return TimeManager().compare(self.created, self.life_time)
 
     def is_completed(self, user):
         pass

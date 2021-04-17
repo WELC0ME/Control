@@ -8,7 +8,6 @@ class ResourceList(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
 
-    resource_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                    sqlalchemy.ForeignKey("resources.id"))
+    resource_id = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
 
-    number = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    number = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer), nullable=True)

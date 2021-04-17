@@ -29,10 +29,12 @@ def get_productions():
     for production in productions:
         if production.is_outdated():
             db_sess.delete(production)
-        elif production.is_completed():
-            production.on_complete(users)
-            db_sess.merge(production)
-        db_sess.commit()
+            db_sess.commit()
+        for user in users:
+            if production.is_completed(user):
+                production.on_complete(user)
+                db_sess.merge(production)
+                db_sess.commit()
 
     patterns = eval(open('static/core/productions.txt',
                          'r', encoding='utf8').read())

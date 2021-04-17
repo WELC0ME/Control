@@ -9,3 +9,6 @@ class Resource(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
 
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    def apply_pattern(self, data):
+        self.name = data['name']

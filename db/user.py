@@ -13,13 +13,8 @@ class User(SqlAlchemyBase):
     nickname = sqlalchemy.Column(sqlalchemy.String)
     password = sqlalchemy.Column(sqlalchemy.String)
 
-    resources = sqlalchemy.Column(sqlalchemy.Integer,
-                                  sqlalchemy.ForeignKey('resource_list.id'))
-
+    resources = orm.relation('UsersToResources', back_populates='user')
     bets = orm.relation("UsersToBets", back_populates='user')
-
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -49,9 +44,14 @@ class User(SqlAlchemyBase):
 
     def to_dict(self):
         return {
-            'id': self.id,
+            'authorized': True,
             'nickname': self.nickname,
-            'notifications': self.notifications,
-            'password': self.password,
-            'resources': self.resources
+            'resources': [{
+                'name': i.resource.name,
+                'number': i.number,
+            } for i in self.resources]
         }
+
+    def apply_pattern(self, pattern):
+        self.nickname = pattern['nickname']
+        self.password = generate_password_hash(pattern['password'])

@@ -15,8 +15,11 @@ def create_session() -> Session:
     if __factory:
         return __factory()
 
-    engine = sa.create_engine('postgresql' + os.environ['DATABASE_URL'][8:],
+    # engine = sa.create_engine('postgresql' + os.environ['DATABASE_URL'][8:],
+    #                           echo=False)
+    engine = sa.create_engine('sqlite:///test.db?check_same_thread=False',
                               echo=False)
+
     __factory = orm.sessionmaker(bind=engine)
 
     from . import __all_models

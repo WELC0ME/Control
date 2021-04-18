@@ -1,6 +1,5 @@
 from windows.bets import *
 from windows.login import *
-from windows.menu import *
 from windows.productions import *
 from windows.profile import *
 from windows.rating import *

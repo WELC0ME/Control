@@ -10,7 +10,8 @@ class Bet(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    sides = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
+    side_01 = sqlalchemy.Column(sqlalchemy.Integer)
+    side_02 = sqlalchemy.Column(sqlalchemy.Integer)
     created = sqlalchemy.Column(sqlalchemy.String)
     life_time = sqlalchemy.Column(sqlalchemy.String)
     result = sqlalchemy.Column(sqlalchemy.Integer)
@@ -22,14 +23,21 @@ class Bet(SqlAlchemyBase):
         self.life_time = TIME.random_time(
             '00:00:01:00:00', '00:00:05:00:00'
         )
-        self.sides = [0, 0]
+        self.side_01 = 0
+        self.side_02 = 0
 
     def is_completed(self):
         return TIME.compare(self.created, self.life_time)
 
     def on_completed(self):
-        roll = random.randint(0, self.sides[0] + self.sides[1])
-        self.result = 1 if roll > self.sides[0] else 0
+        roll = random.randint(0, self.side_01 + self.side_02)
+        # TODO
+        if roll > self.side_01:
+            winner = self.side_02
+            loser = self.side_01
+        else:
+            winner = self.side_01
+            loser = self.side_02
         if self.sides[self.result] != 0:
             self.coefficient = 1 + self.sides[
                 (self.result % 2) + 1] / self.sides[self.result]

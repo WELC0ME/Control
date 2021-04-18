@@ -42,92 +42,99 @@
         </div>
 
         <div class="content">
-          <div class="content-space" v-if="info.data.accepted == 1">
+          <div class="content-space">
+            <div class="content-show" v-if="info.data.accepted == 1">
+              <div v-if="getLocation('menu')">
 
-            <div v-if="getLocation('menu')">
+              </div>
+              <div v-else-if="getLocation('rating')">
 
-            </div>
-            <div v-else-if="getLocation('rating')">
-
-              <div class="content-rating">
-                <div class="content-rating-item" v-for="(user, index) in info.data.data">
-                  {{ index }} {{ user.nickname }} {{ user.resources.coins }}
+                <div class="content-rating">
+                  <div class="content-rating-item" v-for="(user, index) in info.data.data">
+                    {{ index }} {{ user.nickname }} {{ user.resources.coins }}
+                  </div>
                 </div>
+
               </div>
+              <div v-else-if="getLocation('productions')">
 
-            </div>
-            <div v-else-if="getLocation('productions')">
+                <div class="content-items">
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                  <div class="content-item">Test01</div>
+                </div>
 
-              <div class="content-items">
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
-                <div class="content-item">Test01</div>
               </div>
+              <div v-else-if="getLocation('stock_exchange')">
 
-            </div>
-            <div v-else-if="getLocation('stock_exchange')">
+              </div>
+              <div v-else-if="getLocation('bets')">
 
-            </div>
-            <div v-else-if="getLocation('bets')">
+              </div>
+              <div v-else-if="getLocation('rules')">
 
-            </div>
-            <div v-else-if="getLocation('rules')">
-
-            </div>
-            <div v-else-if="getLocation('profile')">
-              <div v-if="info.user.authorized">
-                authorized
+              </div>
+              <div v-else-if="getLocation('profile')">
+                <div v-if="info.user.authorized">
+                  {{ info.user.nickname }}
+                  <ul>
+                    <li v-for="(resource, index) in info.user.resources">
+                      {{ index }}: {{ resource.name }} {{ resource.number }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <div class="login-form">
+                      <div class="login-title">Login</div>
+                      <input type="text" placeholder="Enter your nickname" maxlength="16" v-model="nicknameInput">
+                      <input type="password" placeholder="Enter your password" maxlength="20"v-model="passwordInput">
+                      <div class="login-buttons">
+                        <button v-on:click="login('sign_in')">Sign in</button>
+                        <button v-on:click="login('sign_up')">Sign up</button>
+                      </div>
+                      {{ loginError }}
+                  </div>
+                </div>
               </div>
               <div v-else>
-                <div class="login-form">
-                    <div class="login-title">Login</div>
-                    <input type="text" placeholder="Enter your nickname" maxlength="16">
-                    <input type="password" placeholder="Enter your password" maxlength="20">
-                    <div class="login-buttons">
-                      <button>Sign in</button>
-                      <button>Sign up</button>
-                    </div>
-                </div>
+                Not found
               </div>
             </div>
-            <div v-else>
-              Not found
+            <div class="content-loader" v-else-if="info.data.accepted == 0">
+              Loader
             </div>
-          </div>
-          <div class="content-loader" v-else-if="info.data.accepted == 0">
-            Loader
-          </div>
-          <div class="content-not-found" v-else-if="info.data.accepted == -1">
+            <div class="content-not-found" v-else-if="info.data.accepted == -1">
 
+            </div>
           </div>
         </div>
       </div>

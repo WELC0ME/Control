@@ -7,25 +7,9 @@ import config
 @config.APP.route('/api/productions')
 def get_productions():
     db_sess = create_session()
-    resources = db_sess.query(Resource).all()
-    names = [i.name for i in resources]
-    patterns = eval(open('static/core/resources.txt',
-                         'r', encoding='utf8').read())
-    for pattern in patterns:
-        if pattern['name'] not in names:
-            new_resource = Resource()
-            new_resource.apply_pattern(pattern)
-            db_sess.add(new_resource)
-            db_sess.commit()
-
-    names = [i['name'] for i in patterns]
-    for resource in resources:
-        if resource['name'] not in names:
-            db_sess.delete(resource)
-            db_sess.commit()
 
     productions = db_sess.query(Production).all()
-    users = db_sess.query(Users).all()
+    users = db_sess.query(User).all()
     for production in productions:
         if production.is_outdated():
             db_sess.delete(production)

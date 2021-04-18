@@ -14,18 +14,18 @@ class Production(SqlAlchemyBase):
                              sqlalchemy.ForeignKey('production_types.id'),
                              nullable=True)
     # production_type = orm.relation()
-    input_resources = sqlalchemy.Column(sqlalchemy.Integer,
-                                        sqlalchemy.ForeignKey(
-                                            'resource_list.id'), nullable=True)
-    output_resources = sqlalchemy.Column(sqlalchemy.Integer,
-                                         sqlalchemy.ForeignKey(
-                                             'resource_list.id'),
-                                         nullable=True)
+    # input_resources = sqlalchemy.Column(sqlalchemy.Integer,
+    #                                     sqlalchemy.ForeignKey(
+    #                                         'resource_list.id'), nullable=True)
+    # output_resources = sqlalchemy.Column(sqlalchemy.Integer,
+    #                                      sqlalchemy.ForeignKey(
+    #                                          'resource_list.id'),
+    #                                      nullable=True)
 
     working_time = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    workload = sqlalchemy.Column(
-        sqlalchemy.ARRAY((sqlalchemy.Integer, sqlalchemy.String)))
+    # workload = sqlalchemy.Column(
+    #     sqlalchemy.ARRAY((sqlalchemy.Integer, sqlalchemy.String)))
 
     created = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     life_time = sqlalchemy.Column(sqlalchemy.String, nullable=True)

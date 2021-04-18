@@ -12,10 +12,37 @@ const App = {
             server: 'http://127.0.0.1:5000/api/',
             token: 'IB1jiktwudOP8eLfoVXbIRrgp8KxRYlpqnzByVXS0EATLeZ0ZO6yynHN',
             location: 'profile',
-            nicknameInput: '',
-            passwordInput: '',
-            betInput: '',
             error: '',
+            resources: [
+                'energy',
+                'water',
+                'food',
+                'apple',
+                'cider',
+                'wheat',
+                'flour',
+                'fuel',
+                'planks',
+                'bread',
+                'iron',
+                'iron_ore',
+                'tools',
+                'bricks',
+                'steel',
+                'leather',
+                'hide',
+                'salt',
+                'clay',
+                'paper',
+                'books',
+                'quartz',
+                'glass',
+                'battery',
+                'frame',
+                'gold',
+                'stone',
+                'coin',
+            ]
         }
     },
     mounted() {
@@ -53,10 +80,11 @@ const App = {
 
         login(_type) {
             this.info.data.accepted = 0
+            console.log('LOGIN', this.$refs.nickname.value)
             axios.post(this.server + _type, {
                 'token': this.token,
-                'nickname': this.nicknameInput,
-                'password': this.passwordInput,
+                'nickname': this.$refs.nickname.value,
+                'password': this.$refs.password.value,
             })
                 .then(response => {
                     if (response.data.result == 'OK') {
@@ -96,7 +124,7 @@ const App = {
               'token': this.token,
               'index': index,
               'side': side - 1,
-              'value': this.betInput
+              'value': this.$refs.bet.value
             })
                 .then(response => {
                     if (response.data.result != 'OK') {
@@ -106,14 +134,46 @@ const App = {
                 .catch(error => {
                     this.error = 'unknown error';
                 })
-            this.betInput = ''
+            this.$refs.bet.value = ''
         },
 
         sendData(index, _type) {
-            console.log(this.server + _type, index)
             axios.post(this.server + _type, {
               'token': this.token,
               'production_id': index,
+            })
+                .then(response => {
+                    if (response.data.result != 'OK') {
+                        this.error = response.data.result
+                    };
+                })
+                .catch(error => {
+                    this.error = 'unknown error';
+                })
+        },
+
+        add() {
+            axios.post(this.server + 'create', {
+                'token': this.token,
+                'input': this.$refs.input_resource.options[this.$refs.input_resource.selectedIndex].text,
+                'output': this.$refs.output_resource.options[this.$refs.output_resource.selectedIndex].text,
+                'input_number': this.$refs.input_number.value,
+                'output_number': this.$refs.output_number.value,
+            })
+                .then(response => {
+                    if (response.data.result != 'OK') {
+                        this.error = response.data.result
+                    };
+                })
+                .catch(error => {
+                    this.error = 'unknown error';
+                })
+        },
+
+        accept(index) {
+            axios.post(this.server + 'accept', {
+                'token': this.token,
+                'deal_id': index,
             })
                 .then(response => {
                     if (response.data.result != 'OK') {

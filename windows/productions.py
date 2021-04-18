@@ -36,7 +36,8 @@ def get_productions():
             new_production.apply_pattern(pattern)
             db_sess.add(new_production)
             db_sess.commit()
-            productions = db_sess.query(Production).get(pattern['type'])
+            productions = db_sess.query(Production).filter(
+                Production.type_id == pattern['type']).all()
             count = len(productions) if productions else 0
     productions = db_sess.query(Production).all()
     return {
@@ -81,7 +82,6 @@ def start_production():
     production = db_sess.query(Production).get(_request['production_id'])
     user = db_sess.query(User).get(config.USER_ID)
     res = user.start(production)
-    print(res)
     if res:
         return jsonify(res)
     production.start(user)

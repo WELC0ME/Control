@@ -70,6 +70,29 @@
 
               </div>
               <div v-else-if="getLocation('stock_exchange')">
+                <div v-if="info.user.authorized">
+                  resource 1
+                  <select ref="input_resource">
+                    <option v-for="resource in resources">{{ resource }}</option>
+                  </select>
+                  <input type="text" placeholder="number" ref="input_number">
+
+                  resource 2
+                  <select ref="output_resource">
+                    <option v-for="resource in resources">{{ resource }}</option>
+                  </select>
+                  <input type="text" placeholder="number" ref="output_number">
+
+                  <button v-on:click="add">Add</button>
+                </div>
+                <ul>
+                  <li v-for="(deal, index) in info.data.data">
+                    {{ index + 1 }}: {{ deal }}
+                    <div v-if="info.user.authorized">
+                      <button v-on:click="accept(index + 1)">Accept</button>
+                    </div>
+                  </li>
+                </ul>
 
               </div>
               <div v-else-if="getLocation('bets')">
@@ -78,7 +101,7 @@
                   <li v-for="(bet, index) in info.data.data">
                     {{ index + 1 }}: {{ bet.side_01 }}  -  {{ bet.side_02 }} {{ bet.coefficient}} {{ bet.time }}
                     <div v-if="info.user.authorized">
-                      <input type="text" placeholder="Money" v-model="betInput">
+                      <input type="text" placeholder="Money" ref="bet">
                       <button v-on:click="doBet(index + 1, 1)"> Side 01</button>
                       <button v-on:click="doBet(index + 1, 2)"> Side 02</button>
                     </div>
@@ -103,8 +126,8 @@
                 <div v-else>
                   <div class="login-form">
                       <div class="login-title">Login</div>
-                      <input type="text" placeholder="Enter your nickname" maxlength="16" v-model="nicknameInput">
-                      <input type="password" placeholder="Enter your password" maxlength="20"v-model="passwordInput">
+                      <input type="text" placeholder="Enter your nickname" maxlength="16" ref="nickname">
+                      <input type="password" placeholder="Enter your password" maxlength="20"ref="password">
                       <div class="login-buttons">
                         <button v-on:click="login('sign_in')">Sign in</button>
                         <button v-on:click="login('sign_up')">Sign up</button>

@@ -27,6 +27,7 @@ def sign_in():
             'result': 'incorrect password'
         })
     config.USER_ID = user.id
+    user.get_energy()
     return jsonify({
         'result': 'OK',
         'user': user.to_dict(),
@@ -72,6 +73,7 @@ def sign_up():
         db_sess.add(users_to_resources)
         db_sess.commit()
     config.USER_ID = user.id
+    user.get_energy()
     return jsonify({
         'result': 'OK',
         'user': user.to_dict(),

@@ -3,6 +3,7 @@ from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
 from .db_session import SqlAlchemyBase
 from .__all_models import UsersToBets
+from config import *
 
 
 class User(SqlAlchemyBase):
@@ -15,6 +16,16 @@ class User(SqlAlchemyBase):
 
     resources = orm.relation('UsersToResources', back_populates='user')
     bets = orm.relation("UsersToBets", back_populates='user')
+
+    last_energy = sqlalchemy.Column(sqlalchemy.Integer)
+
+    def get_energy(self):
+        for i in self.resources:
+            if i.resource.name == 'energy':
+                add = (TIME.now() - int(self.last_energy)) // 3600
+                i.number = int(i.number) + add
+                self.last_energy = int(TIME.now())
+                break
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -90,3 +101,34 @@ class User(SqlAlchemyBase):
     def apply_pattern(self, pattern):
         self.nickname = pattern['nickname']
         self.password = generate_password_hash(pattern['password'])
+        self.last_energy = int(TIME.now())
+
+    def create_deal(self, deal):
+        for i in self.resources:
+            if i.resource.id == deal.input_resource.id:
+                if int(i.number) < int(deal.input_number):
+                    return {
+                         'result': 'not enough resources'
+                    }
+                i.number = int(i.number) - int(deal.input_number)
+                break
+
+    def get_deal(self, deal):
+        for i in self.resources:
+            if i.resource.id == deal.output_resource.id:
+                i.number += deal.output_number
+                break
+
+    def send_deal(self, deal):
+        for i in self.resources:
+            if i.resource.id == deal.output_resource.id:
+                if int(i.number) < int(deal.output_number):
+                    return {
+                         'result': 'not enough resources'
+                    }
+                i.number = int(i.number) - int(deal.output_number)
+                break
+        for i in self.resources:
+            if i.resource.id == deal.input_resource.id:
+                i.number = int(i.number) + int(deal.input_number)
+                break

@@ -10,14 +10,12 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    nickname = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    nickname = sqlalchemy.Column(sqlalchemy.String)
+    password = sqlalchemy.Column(sqlalchemy.String)
 
     resources = sqlalchemy.Column(sqlalchemy.Integer,
-                                  sqlalchemy.ForeignKey('resource_list.id'),
-                                  nullable=True)
+                                  sqlalchemy.ForeignKey('resource_list.id'))
 
-    notifications = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     bets = orm.relation("UsersToBets", back_populates='user')
 
     def set_password(self, password):
@@ -50,7 +48,6 @@ class User(SqlAlchemyBase):
             self.resources['coins'] += association.value * bet.coefficient
 
     def to_dict(self):
-
         return {
             'id': self.id,
             'nickname': self.nickname,

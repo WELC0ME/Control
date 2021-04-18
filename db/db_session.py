@@ -9,11 +9,11 @@ SqlAlchemyBase = dec.declarative_base()
 __factory = None
 
 
-def global_init():
+def create_session() -> Session:
     global __factory
 
     if __factory:
-        return
+        return __factory()
 
     engine = sa.create_engine('postgresql' + os.environ['DATABASE_URL'][8:],
                               echo=False)
@@ -23,7 +23,4 @@ def global_init():
 
     SqlAlchemyBase.metadata.create_all(engine)
 
-
-def create_session() -> Session:
-    global __factory
     return __factory()

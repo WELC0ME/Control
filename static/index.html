@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="stylesheet" href="static/style.css">
+      <title>Control</title>
+   </head>
+   <body>
+      <div class="body" id='app'>
+
+        <div class="header">
+          <div class="header-panel">
+            <div class="header-title">
+              <div class="header-icon">
+                <i class="fas fa-align-right"></i>
+              </div>
+              <h1 class="header-game">Control</h1>
+            </div>
+            <div v-if="info.user.authorized">
+              <button v-on:click="move('profile')">{{ info.user.nickname }}</button>
+            </div>
+            <div v-else>
+              <button v-on:click="move('profile')">Login</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation">
+          <div class="navigation-panel">
+            <div class="navigation-buttons">
+              <li><button v-on:click="move('menu')">Menu</button></li>
+              <li><button v-on:click="move('rating')">Rating</button></li>
+              <li><button v-on:click="move('productions')">Productions</button></li>
+              <li><button v-on:click="move('stock_exchange')">Stock exchange</button></li>
+              <li><button v-on:click="move('bets')">Bets</button></li>
+              <li><button v-on:click="move('rules')">Rules</button></li>
+            </div>
+            <h3 class="navigation-panel-author">Made by WELC0.ME</h3>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="content-space" v-if="info.data.accepted == 1">
+
+            <div v-if="getLocation('menu')">
+
+            </div>
+            <div v-else-if="getLocation('rating')">
+
+              <div class="content-rating">
+                <div class="content-rating-item" v-for="(user, index) in info.data.data">
+                  {{ index }} {{ user.nickname }} {{ user.resources.coins }}
+                </div>
+              </div>
+
+            </div>
+            <div v-else-if="getLocation('productions')">
+
+              <div class="content-items">
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+                <div class="content-item">Test01</div>
+              </div>
+
+            </div>
+            <div v-else-if="getLocation('stock_exchange')">
+
+            </div>
+            <div v-else-if="getLocation('bets')">
+
+            </div>
+            <div v-else-if="getLocation('rules')">
+
+            </div>
+            <div v-else-if="getLocation('profile')">
+              <div v-if="info.user.authorized">
+                authorized
+              </div>
+              <div v-else>
+                <div class="login-form">
+                    <div class="login-title">Login</div>
+                    <input type="text" placeholder="Enter your nickname" maxlength="16">
+                    <input type="password" placeholder="Enter your password" maxlength="20">
+                    <div class="login-buttons">
+                      <button>Sign in</button>
+                      <button>Sign up</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              Not found
+            </div>
+          </div>
+          <div class="content-loader" v-else-if="info.data.accepted == 0">
+            Loader
+          </div>
+          <div class="content-not-found" v-else-if="info.data.accepted == -1">
+
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://unpkg.com/vue@next"></script>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="static/jQuery.js"></script>
+      <script src="static/index.js"></script>
+   </body>
+</html>

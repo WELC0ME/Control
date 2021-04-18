@@ -9,20 +9,17 @@ class Deal(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
 
     author = sqlalchemy.Column(sqlalchemy.Integer,
-                               sqlalchemy.ForeignKey('users.id'),
-                               nullable=True)
+                               sqlalchemy.ForeignKey('users.id'))
 
     input_resource = sqlalchemy.Column(sqlalchemy.Integer,
-                                       sqlalchemy.ForeignKey('resources.id'),
-                                       nullable=True)
+                                       sqlalchemy.ForeignKey('resources.id'))
 
-    input_number = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    input_number = sqlalchemy.Column(sqlalchemy.Integer)
 
     output_resource = sqlalchemy.Column(sqlalchemy.Integer,
-                                        sqlalchemy.ForeignKey('resources.id'),
-                                        nullable=True)
+                                        sqlalchemy.ForeignKey('resources.id'))
 
-    output_number = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    output_number = sqlalchemy.Column(sqlalchemy.Integer)
 
     def to_dict(self):
         return {
@@ -32,5 +29,4 @@ class Deal(SqlAlchemyBase):
             'input_number': self.input_number,
             'output_resource': self.output_resource,
             'output_number': self.output_number
-
         }

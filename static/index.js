@@ -11,13 +11,13 @@ const App = {
             },
             server: 'http://127.0.0.1:5000/api/',
             token: 'IB1jiktwudOP8eLfoVXbIRrgp8KxRYlpqnzByVXS0EATLeZ0ZO6yynHN',
-            curr_location: 'profile',
-            next_location: '',
-            transition: 0,
+            location: 'profile',
             nicknameInput: '',
             passwordInput: '',
+            betInput: '',
             loginError: '',
-            requestError: ''
+            requestError: '',
+            betError: '',
         }
     },
     mounted() {
@@ -37,58 +37,16 @@ const App = {
     methods: {
 
         move(newLocation) {
-            if (newLocation == this.location) {
-                return ''
-            }
-            this.transition = 1
-            this.next_location = newLocation
-            setTimeout(() => {
-                this.curr_location = this.next_location;
-                this.next_location = '';
-                this.transition = 2;
-            }, 700)
-            setTimeout(() => {
-                this.transition = 0;
+            this.curr_location = this.newLocation;
+
+            if (
+                this.curr_location != 'profile' &&
+                this.curr_location != 'menu' &&
+                this.curr_location != 'rules'
+            ) {
                 this.info.data.accepted = 0
-                axios.post(this.server + this.curr_location, {
-                    'token': this.token,
-                })
-                    .then(response => {
-                        if (response.data.result == 'OK') {
-                            this.info.data = {
-                                'data': response.data.data,
-                                'accepted': 1,
-                            }
-                        } else {
-                            this.requestError = response.data.result
-                            this.info.data.accepted = 1
-                        };
-                    })
-                    .catch(error => {
-                        this.requestError = 'unknown error';
-                        this.info.data.accepted = 1
-                    })
-            }, 1400)
-        },
-
-        getClass(_class) {
-            if (this.transition == 0) {
-                return ''
-            }
-
-            if (this.transition == 1) {
-                if (_class == this.curr_location) {
-                    return 'hide'
-                }
-                return ''
-            }
-
-            if (this.transition == 2) {
-                if (_class == this.curr_location) {
-                    return 'show'
-                }
-            return ''
-            }
+                setInterval(this.update, 1000)
+            };
         },
 
         getLocation(location) {
@@ -117,16 +75,40 @@ const App = {
         },
 
         update() {
-             axios.get(this.server + 'productions')
+            axios.post(this.server + this.curr_location, {
+              'token': this.token,
+            })
                 .then(response => {
-                    this.info.data = {
-                        'productions': response.data.productions,
-                        'accepted': true,
+                    if (response.data.result == 'OK') {
+                        this.info.data = {
+                            'data': response.data.data,
+                            'accepted': 1,
+                        }
+                    } else {
+                        this.requestError = response.data.result
                     };
                 })
                 .catch(error => {
-                    this.info.data.accepted = false;
+                    this.requestError = 'unknown error';
                 })
+        },
+
+        doBet(index, side) {
+            axios.post(this.server + 'do_bet', {
+              'token': this.token,
+              'index': index,
+              'side': side - 1,
+              'value': this.betInput
+            })
+                .then(response => {
+                    if (response.data.result != 'OK') {
+                        this.betError = response.data.result
+                    };
+                })
+                .catch(error => {
+                    this.requestError = 'unknown error';
+                })
+            this.betInput = ''
         },
     }
 }

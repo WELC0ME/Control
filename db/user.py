@@ -26,21 +26,31 @@ class User(SqlAlchemyBase):
         self.resources[productions] -= 1
 
     def do_bet(self, bet, side, value):
-        if self.resources['coins'] < value:
-            return {
-                'error': 'not money'
-            }
-        self.resources['coins'] -= value
+        for i in self.resources:
+            if i.resource.name == 'coin':
+                if int(i.number) < int(value):
+                    return {
+                        'result': 'not enough money',
+                    }
+                else:
+                    i.number = int(i.number) - int(value)
+                    break
         self.bets.append(UsersToBets(
             user_id=self.id,
             bet_id=bet.id,
             side=side,
-            value=value
+            value=int(value)
         ))
+        return {
+            'result': 'OK',
+        }
 
-    def on_bet_complete(self, bet, association):
-        if bet.result == association.side:
-            self.resources['coins'] += association.value * bet.coefficient
+    def on_bet_complete(self, result, coefficient, association):
+        if result == association.side:
+            for i in self.resources:
+                if i.resource.name == 'coin':
+                    i.number += int(association.value) * coefficient
+                    break
 
     def to_dict(self):
         return {

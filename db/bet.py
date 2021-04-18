@@ -12,46 +12,36 @@ class Bet(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     side_01 = sqlalchemy.Column(sqlalchemy.Integer)
     side_02 = sqlalchemy.Column(sqlalchemy.Integer)
-    created = sqlalchemy.Column(sqlalchemy.String)
-    life_time = sqlalchemy.Column(sqlalchemy.String)
-    result = sqlalchemy.Column(sqlalchemy.Integer)
+    created = sqlalchemy.Column(sqlalchemy.Integer)
+    life_time = sqlalchemy.Column(sqlalchemy.Integer)
     coefficient = sqlalchemy.Column(sqlalchemy.Integer)
     users = orm.relation("UsersToBets", back_populates='bet')
 
     def generate(self):
         self.created = TIME.now()
-        self.life_time = TIME.random_time(
-            '00:00:01:00:00', '00:00:05:00:00'
-        )
+        self.life_time = TIME.random(86400, 432000)
+        self.coefficient = round(random.random(), 2)
         self.side_01 = 0
         self.side_02 = 0
 
-    def is_completed(self):
-        return TIME.compare(self.created, self.life_time)
+    def is_complete(self):
+        return TIME.get(int(self.created)) > int(self.life_time)
 
-    def on_completed(self):
+    def on_complete(self):
         roll = random.randint(0, self.side_01 + self.side_02)
-        # TODO
-        if roll > self.side_01:
-            winner = self.side_02
-            loser = self.side_01
+        if roll >= self.side_01:
+            result = 0
         else:
-            winner = self.side_01
-            loser = self.side_02
-        if self.sides[self.result] != 0:
-            self.coefficient = 1 + self.sides[
-                (self.result % 2) + 1] / self.sides[self.result]
-        else:
-            self.coefficient = 1
+            result = 1
         for association in self.users:
-            association.user.on_bet_complete(self, association)
+            association.user.on_bet_complete(result, self.coefficient,
+                                             association)
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'sides': self.sides,
-            'created': self.created,
-            'life_time': self.life_time,
-            'result': self.result,
+            'side_01': self.side_01,
+            'side_02': self.side_02,
             'coefficient': self.coefficient,
+            'time': TIME.view(
+                int(self.life_time) - TIME.get(int(self.created))),
         }

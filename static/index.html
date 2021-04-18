@@ -45,7 +45,7 @@
           <div class="content-space">
             <div class="content-show" v-if="info.data.accepted == 1">
               <div v-if="getLocation('menu')">
-
+                <p> MENU </p>
               </div>
               <div v-else-if="getLocation('rating')">
 
@@ -98,6 +98,17 @@
 
               </div>
               <div v-else-if="getLocation('bets')">
+
+                <ul>
+                  <li v-for="(bet, index) in info.data.data">
+                    {{ index + 1 }}: {{ bet.side_01 }}  -  {{ bet.side_02 }} {{ bet.coefficient}} {{ bet.time }}
+                    <div v-if="info.user.authorized">
+                      <input type="text" placeholder="Money" v-model="betInput">
+                      <button v-on:click="doBet(index + 1, 1)"> Side 01</button>
+                      <button v-on:click="doBet(index + 1, 2)"> Side 02</button>
+                    </div>
+                  </li>
+                </ul>
 
               </div>
               <div v-else-if="getLocation('rules')">

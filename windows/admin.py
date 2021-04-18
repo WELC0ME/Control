@@ -25,3 +25,7 @@ def create_resources():
             new_resource.apply_pattern(pattern)
             db_sess.add(new_resource)
             db_sess.commit()
+
+    return jsonify({
+        'result': 'OK'
+    })

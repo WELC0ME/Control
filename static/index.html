@@ -49,11 +49,11 @@
               </div>
               <div v-else-if="getLocation('rating')">
 
-                <div class="content-rating">
-                  <div class="content-rating-item" v-for="(user, index) in info.data.data">
-                    {{ index }} {{ user.nickname }} {{ user.resources.coins }}
-                  </div>
-                </div>
+                <ul>
+                  <li v-for="(user, index) in info.data.data">
+                    {{ index + 1 }}: {{ user.nickname }}  -  {{ user.resources.coin }} coins
+                  </li>
+                </ul>
 
               </div>
               <div v-else-if="getLocation('productions')">
@@ -101,16 +101,18 @@
 
               </div>
               <div v-else-if="getLocation('rules')">
-
+                <p> RULES </p>
               </div>
               <div v-else-if="getLocation('profile')">
                 <div v-if="info.user.authorized">
+
                   {{ info.user.nickname }}
                   <ul>
                     <li v-for="(resource, index) in info.user.resources">
-                      {{ index }}: {{ resource.name }} {{ resource.number }}
+                      {{ index }}: {{ resource }} {{ info.user.resources.resource }}
                     </li>
                   </ul>
+
                 </div>
                 <div v-else>
                   <div class="login-form">

@@ -6,7 +6,7 @@ const App = {
                     "authorized": false
                 },
                 data: {
-                    "accepted": 1
+                    "accepted": 0
                 },
             },
             server: 'http://127.0.0.1:5000/api/',
@@ -16,18 +16,21 @@ const App = {
             transition: 0,
             nicknameInput: '',
             passwordInput: '',
-            loginError: ''
+            loginError: '',
+            requestError: ''
         }
     },
     mounted() {
-        axios.post(this.server + 'current_user', {
+        axios.post(this.server + 'profile', {
             'token': this.token
         })
             .then(response => {
                 this.info.user = response.data.user;
+                this.info.data.accepted = 1;
             })
             .catch(error => {
                 this.info.user.authorized = false;
+                this.info.data.accepted = 1;
             })
         // setInterval(this.update, 1000)
     },
@@ -46,6 +49,25 @@ const App = {
             }, 700)
             setTimeout(() => {
                 this.transition = 0;
+                this.info.data.accepted = 0
+                axios.post(this.server + this.curr_location, {
+                    'token': this.token,
+                })
+                    .then(response => {
+                        if (response.data.result == 'OK') {
+                            this.info.data = {
+                                'data': response.data.data,
+                                'accepted': 1,
+                            }
+                        } else {
+                            this.requestError = response.data.result
+                            this.info.data.accepted = 1
+                        };
+                    })
+                    .catch(error => {
+                        this.requestError = 'unknown error';
+                        this.info.data.accepted = 1
+                    })
             }, 1400)
         },
 
@@ -84,12 +106,12 @@ const App = {
                     if (response.data.result == 'OK') {
                         this.info.user = response.data.user
                     } else {
-                        loginError = result
+                        this.loginError = response.data.result
                     };
                     this.info.data.accepted = 1
                 })
                 .catch(error => {
-                    loginError = 'unknown error';
+                    this.loginError = 'unknown error';
                     this.info.data.accepted = 1
                 })
         },

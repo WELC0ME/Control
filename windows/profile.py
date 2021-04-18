@@ -4,8 +4,8 @@ from db.__all_models import *
 import config
 
 
-@config.APP.route('/api/current_user', methods=["POST"])
-def current_user():
+@config.APP.route('/api/profile', methods=["POST"])
+def profile():
     _request = {
         'token': request.json.get('token', ''),
     }

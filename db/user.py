@@ -46,10 +46,9 @@ class User(SqlAlchemyBase):
         return {
             'authorized': True,
             'nickname': self.nickname,
-            'resources': [{
-                'name': i.resource.name,
-                'number': i.number,
-            } for i in self.resources]
+            'resources': {
+                i.resource.name: i.number for i in self.resources
+            },
         }
 
     def apply_pattern(self, pattern):

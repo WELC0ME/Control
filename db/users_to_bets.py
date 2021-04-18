@@ -4,6 +4,7 @@ from .db_session import SqlAlchemyBase
 
 
 class UsersToBets(SqlAlchemyBase):
+    # модель для связи пользователей и ставок
     __tablename__ = 'users_to_bets'
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)

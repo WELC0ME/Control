@@ -5,6 +5,7 @@ import config
 
 
 class Deal(SqlAlchemyBase):
+    # класс сделок
     __tablename__ = 'deals'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -30,6 +31,7 @@ class Deal(SqlAlchemyBase):
                                    foreign_keys=[output_resource_id])
 
     def to_dict(self):
+        # приводит к виду словаря
         return {
             'author': self.user,
             'input_resource': self.input_resource.name,

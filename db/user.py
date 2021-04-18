@@ -7,6 +7,7 @@ from config import *
 
 
 class User(SqlAlchemyBase):
+    # класс пользователя
     __tablename__ = 'users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -28,9 +29,12 @@ class User(SqlAlchemyBase):
                 break
 
     def check_password(self, password):
+        # проверка пароля
+        # пароль хранится в хэшированном виде
         return check_password_hash(self.password, password)
 
     def start(self, production):
+        # начать производство
         for i in production.resources:
             if i.direction == 0:
                 for k in self.resources:
@@ -46,6 +50,7 @@ class User(SqlAlchemyBase):
                         k.number -= i.number
 
     def promote(self, production):
+        # метод вычитает у пользователя деньги
         for i in self.resources:
             if i.resource.name == 'coin':
                 if int(i.number) < int(production.action_price):
@@ -57,6 +62,7 @@ class User(SqlAlchemyBase):
                     break
 
     def do_bet(self, bet, side, value):
+        # сделать ставку
         for i in self.resources:
             if i.resource.name == 'coin':
                 if int(i.number) < int(value):
@@ -71,10 +77,10 @@ class User(SqlAlchemyBase):
             bet_id=bet.id,
             side=side,
             value=int(value)
-        ))
+        )) # добавление сделки
         return {
             'result': 'OK',
-        }
+        }  # если ставка прошла успешно
 
     def on_bet_complete(self, result, coefficient, association):
         if result == association.side:
@@ -90,6 +96,7 @@ class User(SqlAlchemyBase):
                     i.number += element[1]
 
     def to_dict(self):
+        # приводит к виду словаря
         return {
             'authorized': True,
             'nickname': self.nickname,
@@ -99,6 +106,7 @@ class User(SqlAlchemyBase):
         }
 
     def apply_pattern(self, pattern):
+        # добавление данных о пользователе, данные передаются в функции
         self.nickname = pattern['nickname']
         self.password = generate_password_hash(pattern['password'])
         self.last_energy = int(TIME.now())

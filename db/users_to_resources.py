@@ -4,6 +4,7 @@ from .db_session import SqlAlchemyBase
 
 
 class UsersToResources(SqlAlchemyBase):
+    # модель для связи пользователей и ресурсов
     __tablename__ = 'users_to_resources'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,

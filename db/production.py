@@ -8,6 +8,7 @@ from .__all_models import ProductionsToUsers
 
 
 class Production(SqlAlchemyBase):
+    # класс роизводства
     __tablename__ = 'productions'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -28,6 +29,7 @@ class Production(SqlAlchemyBase):
     action_shift = sqlalchemy.Column(sqlalchemy.Integer)
 
     def to_dict(self):
+        # приводит к виду словаря все нобходимые данные об объекте
         return {
             'type': self.type.name,
             'input_resources': [[i.resource.name, i.number]
@@ -43,18 +45,20 @@ class Production(SqlAlchemyBase):
         }
 
     def promote(self):
+        # добавление времени жизни
         self.life_time += self.action_shift
 
     def apply_pattern(self, data):
+        # добавление данных
         self.type_id = data['type']
-        for resource in data['input']:
+        for resource in data['input']:  # добавление ресурсов
             self.resources.append(ProductionsToResources(
                 production_id=self.id,
                 resource_id=resource[0],
                 number=resource[1],
                 direction=0,
             ))
-        for resource in data['output']:
+        for resource in data['output']:  # добавление ресурсов
             self.resources.append(ProductionsToResources(
                 production_id=self.id,
                 resource_id=resource[0],
@@ -68,9 +72,11 @@ class Production(SqlAlchemyBase):
         self.action_shift = TIME.random(*data['interaction_time_shift'])
 
     def is_outdated(self):
+        # проверяет сломалось ли производство
         return TIME.get(int(self.created)) > int(self.life_time)
 
     def on_complete(self):
+        # дает ресурсы пользователя
         new_users = []
         for association in self.users:
             if TIME.get(association.time) > self.working_time:

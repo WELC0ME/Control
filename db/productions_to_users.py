@@ -4,6 +4,7 @@ from .db_session import SqlAlchemyBase
 
 
 class ProductionsToUsers(SqlAlchemyBase):
+    # модель для связи пользователей и производств
     __tablename__ = 'productions_to_users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,

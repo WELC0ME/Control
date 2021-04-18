@@ -3,6 +3,7 @@ from .db_session import SqlAlchemyBase
 
 
 class Deal(SqlAlchemyBase):
+    # класс сделок
     __tablename__ = 'deals'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -22,6 +23,7 @@ class Deal(SqlAlchemyBase):
     output_number = sqlalchemy.Column(sqlalchemy.Integer)
 
     def to_dict(self):
+        # приводит к виду словаря
         return {
             'id': self.id,
             'author': self.author,

@@ -4,12 +4,14 @@ import time
 
 
 class TimeManager:
-
+    # класс для работы со временем
     @staticmethod
     def now():
+        # текущее время
         return int(time.time())
 
     def fold(self, first, second):
+        # сложение времени
         time1 = self.from_string(first)
         time2 = self.from_string(second)
         time1 = datetime.timedelta(days=time1.day, hours=time1.hour,
@@ -26,6 +28,7 @@ class TimeManager:
 
     @staticmethod
     def random(start, end):
+        # случайный промежуток времени
         return random.randint(start, end)
 
     @staticmethod

@@ -6,6 +6,7 @@ from config import *
 
 
 class Bet(SqlAlchemyBase):
+    # класс ставок
     __tablename__ = 'bets'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -16,8 +17,10 @@ class Bet(SqlAlchemyBase):
     life_time = sqlalchemy.Column(sqlalchemy.Integer)
     coefficient = sqlalchemy.Column(sqlalchemy.Integer)
     users = orm.relation("UsersToBets", back_populates='bet')
+    # связь с другой твблицей
 
     def generate(self):
+        # генерация
         self.created = TIME.now()
         self.life_time = TIME.random(86400, 432000)
         self.coefficient = round(random.random(), 2)
@@ -38,6 +41,7 @@ class Bet(SqlAlchemyBase):
                                              association)
 
     def to_dict(self):
+        # приводит к виду словаря (метод есть еще у нескольких классов)
         return {
             'side_01': self.side_01,
             'side_02': self.side_02,

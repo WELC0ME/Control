@@ -58,40 +58,15 @@
               </div>
               <div v-else-if="getLocation('productions')">
 
-                <div class="content-items">
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                  <div class="content-item">Test01</div>
-                </div>
+                <ul>
+                  <li v-for="(production, index) in info.data.data">
+                    {{ index + 1 }}: {{ production }}
+                    <div v-if="info.user.authorized">
+                      <button v-on:click="sendData(index + 1, 'start_production')">Start</button>
+                      <button v-on:click="sendData(index + 1, 'promote_production')">Promote</button>
+                    </div>
+                  </li>
+                </ul>
 
               </div>
               <div v-else-if="getLocation('stock_exchange')">
@@ -134,7 +109,7 @@
                         <button v-on:click="login('sign_in')">Sign in</button>
                         <button v-on:click="login('sign_up')">Sign up</button>
                       </div>
-                      {{ loginError }}
+                      {{ error }}
                   </div>
                 </div>
               </div>

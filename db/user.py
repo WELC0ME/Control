@@ -19,11 +19,31 @@ class User(SqlAlchemyBase):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def start_production(self, production):
-        pass
+    def start(self, production):
+        for i in production.resources:
+            if i.direction == 0:
+                for k in self.resources:
+                    if k.resource_id == i.resource_id:
+                        if k.number < i.number:
+                            return {
+                                'result': 'not enough resources'
+                            }
+        for i in production.resources:
+            if i.direction == 0:
+                for k in self.resources:
+                    if k.resource_id == i.resource_id:
+                        k.number -= i.number
 
-    def promote(self, productions):
-        self.resources[productions] -= 1
+    def promote(self, production):
+        for i in self.resources:
+            if i.resource.name == 'coin':
+                if int(i.number) < int(production.action_price):
+                    return {
+                        'result': 'not enough money',
+                    }
+                else:
+                    i.number = int(i.number) - int(production.action_price)
+                    break
 
     def do_bet(self, bet, side, value):
         for i in self.resources:
@@ -51,6 +71,12 @@ class User(SqlAlchemyBase):
                 if i.resource.name == 'coin':
                     i.number += int(association.value) * coefficient
                     break
+
+    def on_production_complete(self, profit):
+        for element in profit:
+            for i in self.resources:
+                if i.resource.id == element[0]:
+                    i.number += element[1]
 
     def to_dict(self):
         return {

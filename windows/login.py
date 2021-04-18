@@ -12,7 +12,6 @@ def sign_in():
         'password': request.json.get('password', ''),
     }
     if not config.check_token(_request['token']):
-        print('incorrect token')
         return jsonify({
             'error': 'incorrect token'
         })
@@ -20,17 +19,14 @@ def sign_in():
     user = db_sess.query(User).filter(
         User.nickname == _request['nickname']).first()
     if not user:
-        print('unknown nickname')
         return jsonify({
             'result': 'unknown nickname'
         })
     if not user.check_password(_request['password']):
-        print('incorrect password')
         return jsonify({
             'result': 'incorrect password'
         })
     config.USER_ID = user.id
-    print('OK')
     return jsonify({
         'result': 'OK',
         'user': user.to_dict(),
@@ -45,17 +41,14 @@ def sign_up():
         'password': request.json.get('password', ''),
     }
     if not config.check_token(_request['token']):
-        print('incorrect token')
         return jsonify({
             'error': 'incorrect token'
         })
     if len(_request['nickname']) < 4:
-        print('nickname too short')
         return jsonify({
             'result': 'nickname too short'
         })
     if len(_request['password']) < 4:
-        print('password too short')
         return jsonify({
             'result': 'password too short'
         })
@@ -64,7 +57,6 @@ def sign_up():
     user = db_sess.query(User).filter(
         User.nickname == _request['nickname']).first()
     if user:
-        print('user with same nickname is already exist')
         return jsonify({
             'result': 'user with same nickname is already exist'
         })

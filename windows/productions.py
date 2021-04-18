@@ -4,57 +4,87 @@ from db.__all_models import *
 import config
 
 
-@config.APP.route('/api/productions')
+@config.APP.route('/api/productions', methods=['POST'])
 def get_productions():
+    _request = {
+        'token': request.json.get('token', ''),
+    }
+    if not config.check_token(_request['token']):
+        return jsonify({
+            'error': 'incorrect token'
+        })
     db_sess = create_session()
 
     productions = db_sess.query(Production).all()
-    users = db_sess.query(User).all()
     for production in productions:
         if production.is_outdated():
             db_sess.delete(production)
             db_sess.commit()
-        for user in users:
-            if production.is_completed(user):
-                production.on_complete(user)
-                db_sess.merge(production)
-                db_sess.commit()
+        production.on_complete()
+        db_sess.merge(production)
+        db_sess.commit()
 
     patterns = eval(open('static/core/productions.txt',
                          'r', encoding='utf8').read())
-    users = len(db_sess.query(User).all()) // 1000 + 1
+    users = len(db_sess.query(User).all())
     for pattern in patterns:
-        productions = db_sess.query(Production).get(pattern['type'])
-        adj = (users - len(productions) / pattern['count']) / pattern['count']
-        for _ in range(int(adj)):
+        productions = db_sess.query(Production).filter(
+            Production.type_id == pattern['type']).all()
+        count = len(productions) if productions else 0
+        while count * pattern['count'] < users:
             new_production = Production()
             new_production.apply_pattern(pattern)
             db_sess.add(new_production)
             db_sess.commit()
+            productions = db_sess.query(Production).get(pattern['type'])
+            count = len(productions) if productions else 0
     productions = db_sess.query(Production).all()
     return {
-        'productions': [production.to_dict() for production in productions]
+        'result': 'OK',
+        'data': [production.to_dict() for production in productions]
     }
 
 
-@config.APP.route('/api/promote_production')
+@config.APP.route('/api/promote_production', methods=['POST'])
 def promote_production():
+    _request = {
+        'token': request.json.get('token', ''),
+        'production_id': request.json.get('production_id', ''),
+    }
+    if not config.check_token(_request['token']):
+        return jsonify({
+            'error': 'incorrect token'
+        })
     db_sess = create_session()
-    production = db_sess.query(Production).get(request.json['production_id'])
+    production = db_sess.query(Production).get(_request['production_id'])
     user = db_sess.query(User).get(config.USER_ID)
-    user.promote(production, request.json['value'])
-    production.promote(request.json['value'])
+    res = user.promote(production)
+    if res:
+        return jsonify(res)
+    production.promote()
     return jsonify({
         'result': 'OK'
     })
 
 
-@config.APP.route('/api/start_production')
+@config.APP.route('/api/start_production', methods=['POST'])
 def start_production():
+    _request = {
+        'token': request.json.get('token', ''),
+        'production_id': request.json.get('production_id', ''),
+    }
+    if not config.check_token(_request['token']):
+        return jsonify({
+            'error': 'incorrect token'
+        })
     db_sess = create_session()
-    production = db_sess.query(Production).get(request.json['production_id'])
+    production = db_sess.query(Production).get(_request['production_id'])
     user = db_sess.query(User).get(config.USER_ID)
-    user.start_production(production)
+    res = user.start(production)
+    print(res)
+    if res:
+        return jsonify(res)
+    production.start(user)
     return jsonify({
         'result': 'OK'
     })

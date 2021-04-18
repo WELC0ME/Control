@@ -27,6 +27,7 @@ def get_bets():
         new_bet.generate()
         db_sess.add(new_bet)
         db_sess.commit()
+        bets = db_sess.query(Bet).all()
     bets = db_sess.query(Bet).all()
     return jsonify({
         'result': 'OK',

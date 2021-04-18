@@ -1,7 +1,10 @@
 import sqlalchemy
 from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
-from time_manager import TimeManager
+from config import *
+import config
+from .__all_models import ProductionsToResources
+from .__all_models import ProductionsToUsers
 
 
 class Production(SqlAlchemyBase):
@@ -9,60 +12,79 @@ class Production(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    name = sqlalchemy.Column(sqlalchemy.String)
-    type = sqlalchemy.Column(sqlalchemy.Integer,
-                             sqlalchemy.ForeignKey('production_types.id'),
-                             nullable=True)
-    # production_type = orm.relation()
-    # input_resources = sqlalchemy.Column(sqlalchemy.Integer,
-    #                                     sqlalchemy.ForeignKey(
-    #                                         'resource_list.id'), nullable=True)
-    # output_resources = sqlalchemy.Column(sqlalchemy.Integer,
-    #                                      sqlalchemy.ForeignKey(
-    #                                          'resource_list.id'),
-    #                                      nullable=True)
+    type_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                sqlalchemy.ForeignKey('production_types.id'))
+    type = orm.relation('ProductionType')
 
-    working_time = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    resources = orm.relation('ProductionsToResources',
+                             back_populates='production')
+    users = orm.relation('ProductionsToUsers',
+                         back_populates='production')
 
-    # workload = sqlalchemy.Column(
-    #     sqlalchemy.ARRAY((sqlalchemy.Integer, sqlalchemy.String)))
-
-    created = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    life_time = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
-    action_price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
-    action_shift = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    working_time = sqlalchemy.Column(sqlalchemy.Integer)
+    created = sqlalchemy.Column(sqlalchemy.Integer)
+    life_time = sqlalchemy.Column(sqlalchemy.Integer)
+    action_price = sqlalchemy.Column(sqlalchemy.Integer)
+    action_shift = sqlalchemy.Column(sqlalchemy.Integer)
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'type': self.type,
-            'input_resources': self.input_resources,
-            'output_resources': self.output_resources,
-            'created': self.created,
-            'life_time': self.life_time,
+            'type': self.type.name,
+            'input_resources': [[i.resource.name, i.number]
+                                for i in self.resources if i.direction == 0],
+            'output_resources': [[i.resource.name, i.number]
+                                 for i in self.resources if i.direction == 1],
+            'time': TIME.view(
+                int(self.life_time) - TIME.get(int(self.created))),
+            'life_time':  TIME.view(int(self.life_time)),
             'action_price': self.action_price,
-            'action_shift': self.action_shift,
-            'workload': self.workload
+            'action_shift':  TIME.view(int(self.action_shift)),
+            'active': config.USER_ID in [i.user.id for i in self.users]
         }
 
-    def promote(self):  # добавление жизни
-        self.life_time = TimeManager().fold(self.life_time, '00:00:00:05:00')
+    def promote(self):
+        self.life_time += self.action_shift
 
     def apply_pattern(self, data):
-        # from time_manager import TimeManager
-        self.type = data['type']
-        self.input_resources = data['input']
-        self.name = data['title']
+        self.type_id = data['type']
+        for resource in data['input']:
+            self.resources.append(ProductionsToResources(
+                production_id=self.id,
+                resource_id=resource[0],
+                number=resource[1],
+                direction=0,
+            ))
+        for resource in data['output']:
+            self.resources.append(ProductionsToResources(
+                production_id=self.id,
+                resource_id=resource[0],
+                number=resource[1],
+                direction=1,
+            ))
+        self.working_time = TIME.random(*data['working_time'])
+        self.created = TIME.now()
+        self.life_time = TIME.random(*data['life_time'])
         self.action_price = data['interaction_price']
-        self.action_shift = data['interaction_time_shift']
+        self.action_shift = TIME.random(*data['interaction_time_shift'])
 
     def is_outdated(self):
-        return TimeManager().compare(self.created, self.life_time)
+        return TIME.get(int(self.created)) > int(self.life_time)
 
-    def is_completed(self, user):
-        pass
+    def on_complete(self):
+        new_users = []
+        for association in self.users:
+            if TIME.get(association.time) > self.working_time:
+                association.user.on_production_complete([
+                    [i.resource.name, i.number]
+                    for i in self.resources if i.direction == 1
+                ])
+            else:
+                new_users.append(association)
+        self.users = new_users[:]
 
-    def on_completed(self, user):
-        pass
+    def start(self, user):
+        self.users.append(ProductionsToUsers(
+            production_id=self.id,
+            user_id=user.id,
+            time=TIME.now()
+        ))

@@ -15,9 +15,7 @@ const App = {
             nicknameInput: '',
             passwordInput: '',
             betInput: '',
-            loginError: '',
-            requestError: '',
-            betError: '',
+            error: '',
         }
     },
     mounted() {
@@ -32,25 +30,25 @@ const App = {
                 this.info.user.authorized = false;
                 this.info.data.accepted = 1;
             })
-        // setInterval(this.update, 1000)
+        //
     },
     methods: {
 
         move(newLocation) {
-            this.curr_location = this.newLocation;
-
+            this.location = newLocation;
+            console.log(this.location)
             if (
-                this.curr_location != 'profile' &&
-                this.curr_location != 'menu' &&
-                this.curr_location != 'rules'
+                this.location != 'profile' &&
+                this.location != 'menu' &&
+                this.location != 'rules'
             ) {
                 this.info.data.accepted = 0
-                setInterval(this.update, 1000)
+                setInterval(this.getData, 1000)
             };
         },
 
         getLocation(location) {
-            return location == this.curr_location
+            return location == this.location
         },
 
         login(_type) {
@@ -64,18 +62,18 @@ const App = {
                     if (response.data.result == 'OK') {
                         this.info.user = response.data.user
                     } else {
-                        this.loginError = response.data.result
+                        this.error = response.data.result
                     };
                     this.info.data.accepted = 1
                 })
                 .catch(error => {
-                    this.loginError = 'unknown error';
+                    this.error = 'unknown error';
                     this.info.data.accepted = 1
                 })
         },
 
-        update() {
-            axios.post(this.server + this.curr_location, {
+        getData() {
+            axios.post(this.server + this.location, {
               'token': this.token,
             })
                 .then(response => {
@@ -85,11 +83,11 @@ const App = {
                             'accepted': 1,
                         }
                     } else {
-                        this.requestError = response.data.result
+                        this.error = response.data.result
                     };
                 })
                 .catch(error => {
-                    this.requestError = 'unknown error';
+                    this.error = 'unknown error';
                 })
         },
 
@@ -102,13 +100,29 @@ const App = {
             })
                 .then(response => {
                     if (response.data.result != 'OK') {
-                        this.betError = response.data.result
+                        this.error = response.data.result
                     };
                 })
                 .catch(error => {
-                    this.requestError = 'unknown error';
+                    this.error = 'unknown error';
                 })
             this.betInput = ''
+        },
+
+        sendData(index, _type) {
+            console.log(this.server + _type, index)
+            axios.post(this.server + _type, {
+              'token': this.token,
+              'production_id': index,
+            })
+                .then(response => {
+                    if (response.data.result != 'OK') {
+                        this.error = response.data.result
+                    };
+                })
+                .catch(error => {
+                    this.error = 'unknown error';
+                })
         },
     }
 }

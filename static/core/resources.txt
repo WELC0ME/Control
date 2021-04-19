@@ -1,0 +1,114 @@
+[
+	{
+		'id': 1,
+		'name': 'energy',
+	},
+	{
+		'id': 2,
+		'name': 'water',
+	},
+	{
+		'id': 3,
+		'name': 'food',
+	},
+	{
+		'id': 4,
+		'name': 'apple',
+	},
+	{
+		'id': 5,
+		'name': 'cider',
+	},
+	{
+		'id': 6,
+		'name': 'wheat',
+	},
+	{
+		'id': 7,
+		'name': 'flour',
+	},
+	{
+		'id': 8,
+		'name': 'fuel',
+	},
+	{
+		'id': 9,
+		'name': 'planks',
+	},
+	{
+		'id': 10,
+		'name': 'bread',
+	},
+	{
+		'id': 11,
+		'name': 'iron',
+	},
+	{
+		'id': 12,
+		'name': 'iron_ore',
+	},
+	{
+		'id': 13,
+		'name': 'tools',
+	},
+	{
+		'id': 14,
+		'name': 'bricks',
+	},
+	{
+		'id': 15,
+		'name': 'steel',
+	},
+	{
+		'id': 16,
+		'name': 'leather',
+	},
+	{
+		'id': 17,
+		'name': 'hide',
+	},
+	{
+		'id': 18,
+		'name': 'salt',
+	},
+	{
+		'id': 19,
+		'name': 'clay',
+	},
+	{
+		'id': 20,
+		'name': 'paper',
+	},
+	{
+		'id': 21,
+		'name': 'books',
+	},
+	{
+		'id': 22,
+		'name': 'quartz',
+	},
+	{
+		'id': 23,
+		'name': 'glass',
+	},
+	{
+		'id': 24,
+		'name': 'battery',
+	},
+	{
+		'id': 25,
+		'name': 'frame',
+	},
+	{
+		'id': 26,
+		'name': 'gold',
+	},
+	{
+		'id': 27,
+		'name': 'stone',
+	},
+	{
+		'id': 28,
+		'name': 'coin',
+	},
+]	

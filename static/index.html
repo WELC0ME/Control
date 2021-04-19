@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="stylesheet" href="static/style.css">
+      <title>Control</title>
+   </head>
+   <body>
+      <div class="body" id='app'>
+
+        <div class="header">
+          <div class="header-panel">
+            <div class="header-title">
+              <div class="header-icon">
+                <i class="fas fa-align-right"></i>
+              </div>
+              <h1 class="header-game">Control</h1>
+            </div>
+            <div v-if="info.user.authorized">
+              <button v-on:click="move('profile')">{{ info.user.nickname }}</button>
+            </div>
+            <div v-else>
+              <button v-on:click="move('profile')">Login</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation">
+          <div class="navigation-panel">
+            <div class="navigation-buttons">
+              <li><button v-on:click="move('rating')">Rating</button></li>
+              <li><button v-on:click="move('productions')">Productions</button></li>
+              <li><button v-on:click="move('stock_exchange')">Stock exchange</button></li>
+              <li><button v-on:click="move('bets')">Bets</button></li>
+            </div>
+            <h3 class="navigation-panel-author">Made by <a href="http://github.com/WELC0ME">WELC0.ME</a></h3>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="content-space">
+            <div class="content-show" v-if="info.data.accepted == 1">
+              <div v-if="getLocation('rating')">
+
+                <div class="content-container">
+                  <div class="rating-item" v-for="(user, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                    </div>
+                    <div class="rating-item-nickname">
+                      {{ user.nickname }}
+                    </div>
+                    <div class="rating-item-coins">
+                      {{ user.resources.coin }} coins
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div v-else-if="getLocation('productions')">
+
+                <div class="content-container">
+                  <div class="production-item" v-for="(production, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                    </div>
+
+                    <div class="production-item-type">
+                      {{ production.type }}
+                    </div>
+
+                    <div class="production-item-input">
+                      <div v-for="input_resource in production.input_resources">
+                        {{ input_resource[0] }} {{ input_resource[1] }}
+                      </div>
+
+                      <div v-for="empty in 4 - production.input_resources.length" class="production-item-empty">
+
+                      </div>
+                    </div>
+
+                    <div class="production-item-icon-active" v-if="production.active">
+                      <i class="fas fa-arrows-alt-h" v-on:click="sendData(index + 1, 'start_production', 0)"></i>
+                    </div>
+
+                    <div class="production-item-icon-inactive" v-else>
+                      <i class="fas fa-arrows-alt-h"></i>
+                    </div>
+
+                    <div class="production-item-output">
+                      <div v-for="output_resource in production.output_resources">
+                        {{ output_resource[0] }} {{ output_resource[1] }}
+                      </div>
+                    </div>
+
+                    <div class="production-item-working-time">
+                      <i class="fas fa-hourglass-start"></i>
+                      <div>{{ production.working_time }}</div>
+                    </div>
+
+                    <div class="production-item-life-time">
+                      <i class="fas fa-heart"></i>
+                      <div>{{ production.time }}</div>
+                    </div>
+
+                    <div class="production-item-price">
+                      <i class="fas fa-coins"></i>
+                      <div>{{ production.action_price }}</div>
+                    </div>
+
+                    <div class="production-item-promote">
+                      <button v-on:click="sendData(index + 1, 'promote_production', -1)" class="production-item-promote-01">Sabotage</button>
+                      <button v-on:click="sendData(index + 1, 'promote_production', 1)" class="production-item-promote-02">Promote</button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+              <div v-else-if="getLocation('stock_exchange')">
+                <div class="deal-new" v-if="info.user.authorized">
+                  <div class="deal-new-item">
+                    <select ref="input_resource" class="deal-new-select">
+                      <option v-for="resource in resources">{{ resource }}</option>
+                    </select>
+                    <input type="text" placeholder="Number" ref="input_number" class="deal-new-input">
+                  </div>
+
+                  <div class="deal-new-item">
+                    <select ref="output_resource" class="deal-new-select">
+                      <option v-for="resource in resources">{{ resource }}</option>
+                    </select>
+                    <input type="text" placeholder="Number" ref="output_number" class="deal-new-input">
+                  </div>
+
+                  <div class="deal-new-item">
+                    <button v-on:click="add" class="deal-new-add">Add</button>
+                  </div>
+
+                </div>
+                <div class="content-container">
+                  <div class="deal-item" v-for="(deal, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                    </div>
+                    <div class="deal-item-input">
+                      {{ deal.input_resource }} {{ deal.input_number }}
+                    </div>
+                    <div class="deal-item-icon">
+                      <i class="fas fa-arrows-alt-h" v-on:click="accept(index + 1)"></i>
+                    </div>
+                    <div class="deal-item-output">
+                      {{ deal.output_resource }} {{ deal.output_number }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div v-else-if="getLocation('bets')">
+
+                <div class="content-container">
+                  <div class="bet-item"  v-for="(bet, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                    </div>
+                    <div class="bet-item-input">
+                      <input type="text" placeholder="Money" ref="bet" maxlength="5">
+                    </div>
+                    <div class="bet-item-sides">
+                        <button v-on:click="doBet(index + 1, 1)">{{ bet.side_01 }}</button>
+                        <button v-on:click="doBet(index + 1, 2)">{{ bet.side_01 }}</button>
+                    </div>
+                    <div class="bet-item-time">
+                      <i class="fas fa-heart"></i>
+                      {{ bet.time }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div v-else-if="getLocation('profile')">
+                <div v-if="info.user.authorized">
+
+                  <div class="content-container">
+                    <div class="resource-item" v-for="(resource, value, index) in info.user.resources">
+                      <div class="item-number">
+                        {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                      </div>
+                      <div class="resource-item-info">
+                        {{ resource }} {{ value }}
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div v-else>
+                  <div class="login-form">
+                      <div class="login-title">Login</div>
+                      <input type="text" placeholder="Enter your nickname" maxlength="16" ref="nickname">
+                      <input type="password" placeholder="Enter your password" maxlength="20"ref="password">
+                      <div class="login-buttons">
+                        <button v-on:click="login('sign_in')">Sign in</button>
+                        <button v-on:click="login('sign_up')">Sign up</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                Not found
+              </div>
+            </div>
+            <div class="content-loader" v-else-if="info.data.accepted == 0">
+              <i class="fas fa-circle-notch"></i>
+            </div>
+            <div class="content-not-found" v-else-if="info.data.accepted == -1">
+              Not found
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://unpkg.com/vue@next"></script>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="static/jQuery.js"></script>
+      <script src="static/index.js"></script>
+   </body>
+</html>

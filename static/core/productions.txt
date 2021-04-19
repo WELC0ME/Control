@@ -1,0 +1,13 @@
+[
+	{
+		'type': 1,
+		'name': 'Fishing Hat',
+		'input': [(1, 1)],
+		'output': [(3, 1)],
+		'working_time': (300, 600),
+		'life_time': (93600, 165600),
+		'interaction_price': 1,
+		'interaction_time_shift': (5400, 7200),
+		'count': 75,
+	},
+]        

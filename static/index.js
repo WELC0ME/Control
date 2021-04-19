@@ -10,7 +10,7 @@ const App = {
                 },
             },
             // server: 'http://127.0.0.1:5000/api/',
-            server: 'https://resource-control.herokuapp.com/api',
+            server: 'https://resource-control.herokuapp.com/api/',
             token: 'IB1jiktwudOP8eLfoVXbIRrgp8KxRYlpqnzByVXS0EATLeZ0ZO6yynHN',
             location: 'profile',
             error: '',

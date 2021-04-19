@@ -46,8 +46,14 @@ class Deal(SqlAlchemyBase):
             return {
                 'result': 'same resources'
             }
-        self.input_resource = options['input']
-        self.output_resource = options['output']
-        self.input_number = options['input_number']
-        self.output_number = options['output_number']
+        self.input_resource = options['input'].lower().replace(' ', '_')
+        self.output_resource = options['output'].lower().replace(' ', '_')
+        try:
+            self.input_number = int(options['input_number'])
+            self.output_number = int(options['output_number'])
+        except ValueError:
+            return {
+                'result': 'not a number'
+            }
+
         self.user_id = user.id

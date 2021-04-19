@@ -35,7 +35,7 @@ def get_bets():
     })
 
 
-@config.APP.route('/api/do_bet')
+@config.APP.route('/api/do_bet', methods=['POST'])
 def do_bet():
     _request = {
         'token': request.json.get('token', ''),

@@ -38,15 +38,15 @@ class Production(SqlAlchemyBase):
                                  for i in self.resources if i.direction == 1],
             'time': TIME.view(
                 int(self.life_time) - TIME.get(int(self.created))),
-            'life_time':  TIME.view(int(self.life_time)),
+            'working_time':  TIME.view(int(self.working_time)),
             'action_price': self.action_price,
             'action_shift':  TIME.view(int(self.action_shift)),
-            'active': config.USER_ID in [i.user.id for i in self.users]
+            'active': config.USER_ID not in [i.user.id for i in self.users]
         }
 
-    def promote(self):
+    def promote(self, side):
         # добавление времени жизни
-        self.life_time += self.action_shift
+        self.life_time += int(side) * self.action_shift
 
     def apply_pattern(self, data):
         # добавление данных

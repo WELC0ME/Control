@@ -15,6 +15,7 @@ def profile():
         })
     db_sess = create_session()
     user = db_sess.query(User).get(config.USER_ID)
+    print()
     return jsonify({
         'user': user.to_dict() if user else {'authorized': False}
     })

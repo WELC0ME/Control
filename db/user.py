@@ -25,7 +25,7 @@ class User(SqlAlchemyBase):
             if i.resource.name == 'energy':
                 add = (TIME.now() - int(self.last_energy)) // 3600
                 i.number = int(i.number) + add
-                self.last_energy = int(TIME.now())
+                self.last_energy = int(self.last_energy) + add * 3600
                 break
 
     def check_password(self, password):
@@ -77,7 +77,7 @@ class User(SqlAlchemyBase):
             bet_id=bet.id,
             side=side,
             value=int(value)
-        )) # добавление сделки
+        ))  # добавление сделки
         return {
             'result': 'OK',
         }  # если ставка прошла успешно
@@ -100,8 +100,7 @@ class User(SqlAlchemyBase):
         return {
             'authorized': True,
             'nickname': self.nickname,
-            'resources': {
-                i.resource.name: i.number for i in self.resources
+            'resources': {i.resource.name: i.number for i in self.resources
             },
         }
 

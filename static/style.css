@@ -139,6 +139,13 @@
   color: white;
 }
 
+.navigation-panel-author a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2ecc71;
+}
+
 .content {
   position: absolute;
   top: 12%;
@@ -146,12 +153,12 @@
   width: 100%;
   min-height: 88%;
   background: #494e56;
-  z-index: -10;
+  z-index: -1;
 }
 
 .content-space {
   position: absolute;
-  top: 12%;
+  top: 0%;
   left: 0;
   width: 100%;
   min-height: 88%;
@@ -160,25 +167,45 @@
 }
 
 .content-space.active {
-  left: 15%;
-  width: 85%;
-  min-height: 88%;
-  transition: .8s;
+  padding-left: 15%;
+  transition: .6s;
 }
 
-.content-items {
+.content-container {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
   transition: 0.6s ease;
+  overflow-x: hidden;
 }
 
-.content-item {
+.rating-item {
   padding: 10px;
   margin: 20px;
   width: 150px;
   height: 200px;
-  background: white;
+  display: flex;
+  background: #2c3a47;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-number {
+  color: white;
+  font-size: 2.5rem;
+  opacity: .3;
+}
+
+.rating-item-nickname {
+  margin-top: 20px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.rating-item-coins {
+  margin-top: 20px;
+  color: white;
+  font-size: 1.5rem;
 }
 
 .login-form {
@@ -195,32 +222,6 @@
   flex-direction: column;
   align-items: center;
   transition: 0.7s;
-}
-
-.show {
-  animation: onShow ease-in 0.7s;
-}
-
-@keyframes onShow {
-  from {
-    opacity: 0;
-  };
-  to {
-    opacity: 1;
-  };
-}
-
-.hide {
-  animation: onHide ease-in 0.7s;
-}
-
-@keyframes onHide {
-  from {
-    opacity: 1;
-  };
-  to {
-    opacity: 0;
-  };
 }
 
 .login-title {
@@ -296,4 +297,371 @@
   width: 150px;
   height: 200px;
   background: white;
+}
+
+.bet-item {
+  padding: 10px;
+  margin: 20px;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  background: #2c3a47;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bet-item-input input {
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  background: none;
+  text-align: center;
+  border: 2px solid #3498db;
+  outline: none;
+  width: 125px;
+  height: 40px;
+  margin-top: 10px;
+}
+
+.bet-item-sides {
+  display: flex;
+  flex-direction: row;
+}
+
+.bet-item-sides button {
+  background: none;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  outline: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  width: 60px;
+  height: 30px;
+  transition: .5s;
+}
+
+.bet-item-sides button:hover {
+  background: #2ecc71;
+  transition: .5s;
+}
+
+.bet-item-time {
+  color: white;
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.deal-item {
+  padding: 10px;
+  margin: 20px;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  background: #2c3a47;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.deal-item-input, .deal-item-output {
+  color: white;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.deal-item-icon {
+  width: 50px;
+  height: 50px;
+  background: #2c3a47;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  z-index: 10;
+  border-radius: 10px;
+  transition: .2s linear;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.deal-item-icon:hover {
+  opacity: .9;
+  transform: scale(1.1);
+  transform: rotate(90deg);
+  background: #2ecc71;
+  transition: 0.4s;
+}
+
+.deal-new {
+  background: #2c3a47;
+  border-radius: 24px;
+  width: 40%;
+  height: 200px;
+  margin-left: 30px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.deal-new-select {
+  background: none;
+  border: none;
+  margin-left: 30px;
+  margin-right: 50px;
+  margin-top: 25px;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.deal-new-input {
+  background: none;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #3498db;
+  outline: none;
+  height: 45px;
+}
+
+.deal-new-add {
+  background: none;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  outline: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  width: 120px;
+  height: 45px;
+  transition: .5s;
+}
+
+.deal-new-add:hover {
+  background: #2ecc71;
+  transition: .5s;
+}
+
+.resource-item {
+  padding: 10px;
+  margin: 20px;
+  width: 150px;
+  height: 100px;
+  display: flex;
+  background: #2c3a47;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resource-item-info {
+  color: white;
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.production-item {
+  padding: 10px;
+  margin: 20px;
+  width: 200px;
+  height: 450px;
+  display: flex;
+  background: #2c3a47;
+  border-radius: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.production-item-type {
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.production-item-input, .production-item-output {
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.production-item-icon-active, .production-item-icon-inactive {
+  width: 50px;
+  height: 50px;
+  background: #2c3a47;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  z-index: 10;
+  border-radius: 10px;
+  transition: .2s linear;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.production-item-icon-active:hover {
+  opacity: .9;
+  transform: scale(1.1);
+  transform: rotate(90deg);
+  background: #2ecc71;
+  transition: 0.4s;
+}
+
+
+.production-item-icon-inactive:hover {
+  opacity: .9;
+  transform: scale(1.1);
+  transform: rotate(90deg);
+  background: #e74c3c;
+  transition: 0.4s;
+}
+
+.production-item-working-time {
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  display: flex;
+  display-direction: row;
+}
+
+.production-item-life-time {
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  display: flex;
+  display-direction: row;
+}
+
+.production-item-price {
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  display: flex;
+  display-direction: row;
+}
+
+.production-item-life-time i, .bet-item-time i, .production-item-price i {
+  width: 25px;
+  height: 25px;
+  background: #2c3a47;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  font-size: 20px;
+  z-index: 10;
+  border-radius: 10px;
+  transition: .2s linear;
+}
+
+.production-item-working-time i {
+  width: 25px;
+  height: 25px;
+  background: #2c3a47;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  font-size: 20px;
+  z-index: 10;
+  border-radius: 10px;
+  transition: .2s linear;
+}
+
+.production-item-empty {
+  color: #2c3a47;
+  height: 20px;
+}
+
+.production-item-promote {
+  display: flex;
+  display-direction: row;
+}
+
+.production-item-promote-01 {
+  background: none;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 2px solid #e74c3c;
+  outline: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  width: 80px;
+  height: 40px;
+  transition: .5s;
+}
+
+.production-item-promote-01:hover {
+  background: #e74c3c;
+  transition: .5s;
+}
+
+.production-item-promote-02 {
+  background: none;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  outline: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  width: 80px;
+  height: 40px;
+  transition: .5s;
+}
+
+.production-item-promote-02:hover {
+  background: #2ecc71;
+  transition: .5s;
+}
+
+.content-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.content-loader i {
+  width: 250px;
+  height: 250px;
+  background: #494e56;
+  color: #fff;
+  text-align: center;
+  line-height: 250px;
+  font-size: 200px;
+  z-index: 10;
+  border-radius: 10px;
+  transition: .2s linear;
+  animation: rotating 1s infinite;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.content-not-found {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
 }

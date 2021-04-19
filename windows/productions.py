@@ -51,6 +51,7 @@ def promote_production():
     _request = {
         'token': request.json.get('token', ''),
         'production_id': request.json.get('production_id', ''),
+        'param': request.json.get('param', ''),
     }
     if not config.check_token(_request['token']):
         return jsonify({
@@ -62,7 +63,7 @@ def promote_production():
     res = user.promote(production)
     if res:
         return jsonify(res)
-    production.promote()
+    production.promote(_request['param'])
     return jsonify({
         'result': 'OK'
     })

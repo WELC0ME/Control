@@ -30,97 +30,170 @@
         <div class="navigation">
           <div class="navigation-panel">
             <div class="navigation-buttons">
-              <li><button v-on:click="move('menu')">Menu</button></li>
               <li><button v-on:click="move('rating')">Rating</button></li>
               <li><button v-on:click="move('productions')">Productions</button></li>
               <li><button v-on:click="move('stock_exchange')">Stock exchange</button></li>
               <li><button v-on:click="move('bets')">Bets</button></li>
-              <li><button v-on:click="move('rules')">Rules</button></li>
             </div>
-            <h3 class="navigation-panel-author">Made by WELC0.ME</h3>
+            <h3 class="navigation-panel-author">Made by <a href="http://github.com/WELC0ME">WELC0.ME</a></h3>
           </div>
         </div>
 
         <div class="content">
           <div class="content-space">
             <div class="content-show" v-if="info.data.accepted == 1">
-              <div v-if="getLocation('menu')">
-                <p> MENU </p>
-              </div>
-              <div v-else-if="getLocation('rating')">
+              <div v-if="getLocation('rating')">
 
-                <ul>
-                  <li v-for="(user, index) in info.data.data">
-                    {{ index + 1 }}: {{ user.nickname }}  -  {{ user.resources.coin }} coins
-                  </li>
-                </ul>
+                <div class="content-container">
+                  <div class="rating-item" v-for="(user, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                    </div>
+                    <div class="rating-item-nickname">
+                      {{ user.nickname }}
+                    </div>
+                    <div class="rating-item-coins">
+                      {{ user.resources.Coin }} coins
+                    </div>
+                  </div>
+                </div>
 
               </div>
               <div v-else-if="getLocation('productions')">
 
-                <ul>
-                  <li v-for="(production, index) in info.data.data">
-                    {{ index + 1 }}: {{ production }}
-                    <div v-if="info.user.authorized">
-                      <button v-on:click="sendData(index + 1, 'start_production')">Start</button>
-                      <button v-on:click="sendData(index + 1, 'promote_production')">Promote</button>
+                <div class="content-container">
+                  <div class="production-item" v-for="(production, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
                     </div>
-                  </li>
-                </ul>
+
+                    <div class="production-item-type">
+                      {{ production.type }}
+                    </div>
+
+                    <div class="production-item-input">
+                      <div v-for="input_resource in production.input_resources">
+                        {{ input_resource[0] }} {{ input_resource[1] }}
+                      </div>
+
+                      <div v-for="empty in 4 - production.input_resources.length" class="production-item-empty">
+
+                      </div>
+                    </div>
+
+                    <div class="production-item-icon-active" v-if="production.active">
+                      <i class="fas fa-arrows-alt-h" v-on:click="sendData(index + 1, 'start_production', 0)"></i>
+                    </div>
+
+                    <div class="production-item-icon-inactive" v-else>
+                      <i class="fas fa-arrows-alt-h"></i>
+                    </div>
+
+                    <div class="production-item-output">
+                      <div v-for="output_resource in production.output_resources">
+                        {{ output_resource[0] }} {{ output_resource[1] }}
+                      </div>
+                    </div>
+
+                    <div class="production-item-working-time">
+                      <i class="fas fa-hourglass-start"></i>
+                      <div>{{ production.working_time }}</div>
+                    </div>
+
+                    <div class="production-item-life-time">
+                      <i class="fas fa-heart"></i>
+                      <div>{{ production.time }}</div>
+                    </div>
+
+                    <div class="production-item-price">
+                      <i class="fas fa-coins"></i>
+                      <div>{{ production.action_price }}</div>
+                    </div>
+
+                    <div class="production-item-promote">
+                      <button v-on:click="sendData(index + 1, 'promote_production', -1)" class="production-item-promote-01">Sabotage</button>
+                      <button v-on:click="sendData(index + 1, 'promote_production', 1)" class="production-item-promote-02">Promote</button>
+                    </div>
+
+                  </div>
+                </div>
 
               </div>
               <div v-else-if="getLocation('stock_exchange')">
-                <div v-if="info.user.authorized">
-                  resource 1
-                  <select ref="input_resource">
-                    <option v-for="resource in resources">{{ resource }}</option>
-                  </select>
-                  <input type="text" placeholder="number" ref="input_number">
+                <div class="deal-new" v-if="info.user.authorized">
+                  <div class="deal-new-item">
+                    <select ref="input_resource" class="deal-new-select">
+                      <option v-for="resource in resources">{{ resource }}</option>
+                    </select>
+                    <input type="text" placeholder="Number" ref="input_number" class="deal-new-input">
+                  </div>
 
-                  resource 2
-                  <select ref="output_resource">
-                    <option v-for="resource in resources">{{ resource }}</option>
-                  </select>
-                  <input type="text" placeholder="number" ref="output_number">
+                  <div class="deal-new-item">
+                    <select ref="output_resource" class="deal-new-select">
+                      <option v-for="resource in resources">{{ resource }}</option>
+                    </select>
+                    <input type="text" placeholder="Number" ref="output_number" class="deal-new-input">
+                  </div>
 
-                  <button v-on:click="add">Add</button>
+                  <div class="deal-new-item">
+                    <button v-on:click="add" class="deal-new-add">Add</button>
+                  </div>
+
                 </div>
-                <ul>
-                  <li v-for="(deal, index) in info.data.data">
-                    {{ index + 1 }}: {{ deal }}
-                    <div v-if="info.user.authorized">
-                      <button v-on:click="accept(index + 1)">Accept</button>
+                <div class="content-container">
+                  <div class="deal-item" v-for="(deal, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
                     </div>
-                  </li>
-                </ul>
+                    <div class="deal-item-input">
+                      {{ deal.input_resource }} {{ deal.input_number }}
+                    </div>
+                    <div class="deal-item-icon">
+                      <i class="fas fa-arrows-alt-h" v-on:click="accept(index + 1)"></i>
+                    </div>
+                    <div class="deal-item-output">
+                      {{ deal.output_resource }} {{ deal.output_number }}
+                    </div>
+                  </div>
+                </div>
 
               </div>
               <div v-else-if="getLocation('bets')">
 
-                <ul>
-                  <li v-for="(bet, index) in info.data.data">
-                    {{ index + 1 }}: {{ bet.side_01 }}  -  {{ bet.side_02 }} {{ bet.coefficient}} {{ bet.time }}
-                    <div v-if="info.user.authorized">
-                      <input type="text" placeholder="Money" ref="bet">
-                      <button v-on:click="doBet(index + 1, 1)"> Side 01</button>
-                      <button v-on:click="doBet(index + 1, 2)"> Side 02</button>
+                <div class="content-container">
+                  <div class="bet-item"  v-for="(bet, index) in info.data.data">
+                    <div class="item-number">
+                      {{ '#' + (index + 1).toString().padStart(4, '0') }}
                     </div>
-                  </li>
-                </ul>
+                    <div class="bet-item-input">
+                      <input type="text" placeholder="Money" ref="bet" maxlength="5">
+                    </div>
+                    <div class="bet-item-sides">
+                        <button v-on:click="doBet(index + 1, 1)">{{ bet.side_01 }}</button>
+                        <button v-on:click="doBet(index + 1, 2)">{{ bet.side_01 }}</button>
+                    </div>
+                    <div class="bet-item-time">
+                      <i class="fas fa-heart"></i>
+                      {{ bet.time }}
+                    </div>
+                  </div>
+                </div>
 
-              </div>
-              <div v-else-if="getLocation('rules')">
-                <p> RULES </p>
               </div>
               <div v-else-if="getLocation('profile')">
                 <div v-if="info.user.authorized">
 
-                  {{ info.user.nickname }}
-                  <ul>
-                    <li v-for="(resource, index) in info.user.resources">
-                      {{ index }}: {{ resource }} {{ info.user.resources.resource }}
-                    </li>
-                  </ul>
+                  <div class="content-container">
+                    <div class="resource-item" v-for="(resource, value, index) in info.user.resources">
+                      <div class="item-number">
+                        {{ '#' + (index + 1).toString().padStart(4, '0') }}
+                      </div>
+                      <div class="resource-item-info">
+                        {{ resource }} {{ value }}
+                      </div>
+                    </div>
+                  </div>
+
 
                 </div>
                 <div v-else>
@@ -132,7 +205,6 @@
                         <button v-on:click="login('sign_in')">Sign in</button>
                         <button v-on:click="login('sign_up')">Sign up</button>
                       </div>
-                      {{ error }}
                   </div>
                 </div>
               </div>
@@ -141,10 +213,10 @@
               </div>
             </div>
             <div class="content-loader" v-else-if="info.data.accepted == 0">
-              Loader
+              <i class="fas fa-circle-notch"></i>
             </div>
             <div class="content-not-found" v-else-if="info.data.accepted == -1">
-
+              Not found
             </div>
           </div>
         </div>

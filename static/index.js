@@ -14,34 +14,34 @@ const App = {
             location: 'profile',
             error: '',
             resources: [
-                'energy',
-                'water',
-                'food',
-                'apple',
-                'cider',
-                'wheat',
-                'flour',
-                'fuel',
-                'planks',
-                'bread',
-                'iron',
-                'iron_ore',
-                'tools',
-                'bricks',
-                'steel',
-                'leather',
-                'hide',
-                'salt',
-                'clay',
-                'paper',
-                'books',
-                'quartz',
-                'glass',
-                'battery',
-                'frame',
-                'gold',
-                'stone',
-                'coin',
+                'Energy',
+                'Water',
+                'Food',
+                'Apple',
+                'Cider',
+                'Wheat',
+                'Flour',
+                'Fuel',
+                'Planks',
+                'Bread',
+                'Iron',
+                'Iron ore',
+                'Tools',
+                'Bricks',
+                'Steel',
+                'Leather',
+                'Hide',
+                'Salt',
+                'Clay',
+                'Paper',
+                'Books',
+                'Quartz',
+                'Glass',
+                'Battery',
+                'Frame',
+                'Gold',
+                'Stone',
+                'Coin',
             ]
         }
     },
@@ -120,36 +120,46 @@ const App = {
         },
 
         doBet(index, side) {
-            axios.post(this.server + 'do_bet', {
-              'token': this.token,
-              'index': index,
-              'side': side - 1,
-              'value': this.$refs.bet.value
-            })
-                .then(response => {
-                    if (response.data.result != 'OK') {
-                        this.error = response.data.result
-                    };
+            if (!this.info.user.authorized) {
+                this.error = 'Authorize to do bets'
+            }
+            else {
+                axios.post(this.server + 'do_bet', {
+                  'token': this.token,
+                  'index': index,
+                  'side': side - 1,
+                  'value': this.$refs.bet.value
                 })
-                .catch(error => {
-                    this.error = 'unknown error';
-                })
-            this.$refs.bet.value = ''
+                    .then(response => {
+                        if (response.data.result != 'OK') {
+                            this.error = response.data.result
+                        };
+                    })
+                    .catch(error => {
+                        this.error = 'unknown error';
+                    })
+                this.$refs.bet.value = ''
+            }
         },
 
-        sendData(index, _type) {
-            axios.post(this.server + _type, {
-              'token': this.token,
-              'production_id': index,
-            })
-                .then(response => {
-                    if (response.data.result != 'OK') {
-                        this.error = response.data.result
-                    };
+        sendData(index, _type, param) {
+            if (!this.info.user.authorized) {
+                this.error = 'Unable production interaction without login'
+            } else {
+                axios.post(this.server + _type, {
+                  'token': this.token,
+                  'production_id': index,
+                  'param': param,
                 })
-                .catch(error => {
-                    this.error = 'unknown error';
-                })
+                    .then(response => {
+                        if (response.data.result != 'OK') {
+                            this.error = response.data.result
+                        };
+                    })
+                    .catch(error => {
+                        this.error = 'unknown error';
+                    })
+            }
         },
 
         add() {
@@ -171,18 +181,23 @@ const App = {
         },
 
         accept(index) {
-            axios.post(this.server + 'accept', {
-                'token': this.token,
-                'deal_id': index,
-            })
-                .then(response => {
-                    if (response.data.result != 'OK') {
-                        this.error = response.data.result
-                    };
+            if (!this.info.user.authorized) {
+                this.error = 'Authorize to accept bets'
+            }
+            else {
+                axios.post(this.server + 'accept', {
+                    'token': this.token,
+                    'deal_id': index,
                 })
-                .catch(error => {
-                    this.error = 'unknown error';
-                })
+                    .then(response => {
+                        if (response.data.result != 'OK') {
+                            this.error = response.data.result
+                        };
+                    })
+                    .catch(error => {
+                        this.error = 'unknown error';
+                    })
+            }
         },
     }
 }

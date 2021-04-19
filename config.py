@@ -2,7 +2,6 @@ from flask import Flask
 from time_manager import TimeManager
 
 # все необходимые константы
-WINDOWS_PATH = 'windows'
 
 APP = Flask(__name__)
 USER_ID = -1

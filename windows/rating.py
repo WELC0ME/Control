@@ -16,7 +16,7 @@ def rating():
         })
     db_sess = create_session()
     users = db_sess.query(User).all()
-    users = sorted(users, key=lambda user: user.to_dict()['resources']['Coin'],
+    users = sorted(users, key=lambda user: user.to_dict()['resources']['coin'],
                    reverse=True)
     return jsonify({
         'result': 'OK',

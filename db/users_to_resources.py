@@ -19,6 +19,7 @@ class UsersToResources(SqlAlchemyBase):
     resource = orm.relation("Resource")
 
     def create(self, user, resource_pattern):
+        # создание
         self.user_id = user.id
         self.resource_id = resource_pattern['id']
         self.number = 0

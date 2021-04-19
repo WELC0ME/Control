@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/rating', methods=["POST"])
 def rating():
+    # рейтинг пользователей
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -21,3 +22,4 @@ def rating():
         'result': 'OK',
         'data': [user.to_dict() for user in users],
     })
+    # возвращает результат

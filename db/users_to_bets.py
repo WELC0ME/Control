@@ -17,3 +17,4 @@ class UsersToBets(SqlAlchemyBase):
 
     user = orm.relation("User")
     bet = orm.relation("Bet")
+    # для связи с другими таблицами

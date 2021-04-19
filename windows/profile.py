@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/profile', methods=["POST"])
 def profile():
+
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -19,4 +20,5 @@ def profile():
     return jsonify({
         'user': user.to_dict() if user else {'authorized': False}
     })
+    # авторизация пользователя
 

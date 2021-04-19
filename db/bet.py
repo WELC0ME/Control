@@ -28,9 +28,11 @@ class Bet(SqlAlchemyBase):
         self.side_02 = 0
 
     def is_complete(self):
+        # завершилась ли ставка
         return TIME.get(int(self.created)) > int(self.life_time)
 
     def on_complete(self):
+
         roll = random.randint(0, self.side_01 + self.side_02)
         if roll >= self.side_01:
             result = 0

@@ -9,4 +9,4 @@ from .production import Production
 from .user import User
 from .bet import Bet
 
-# импорт всех ммоделей
+# импорт всех моделей

@@ -20,4 +20,5 @@ class TimeManager:
 
     @staticmethod
     def view(_time):
+        # возвращает в строковом виде
         return str(datetime.timedelta(seconds=_time))

@@ -17,3 +17,4 @@ class ProductionsToUsers(SqlAlchemyBase):
 
     production = orm.relation("Production")
     user = orm.relation("User")
+    # для связи с другими таблицами

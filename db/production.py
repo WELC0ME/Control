@@ -21,10 +21,12 @@ class Production(SqlAlchemyBase):
                              back_populates='production')
     users = orm.relation('ProductionsToUsers',
                          back_populates='production')
+    # связь с другими таблицами
 
     working_time = sqlalchemy.Column(sqlalchemy.Integer)
     created = sqlalchemy.Column(sqlalchemy.Integer)
     life_time = sqlalchemy.Column(sqlalchemy.Integer)
+
     action_price = sqlalchemy.Column(sqlalchemy.Integer)
     action_shift = sqlalchemy.Column(sqlalchemy.Integer)
 
@@ -51,14 +53,16 @@ class Production(SqlAlchemyBase):
     def apply_pattern(self, data):
         # добавление данных
         self.type_id = data['type']
-        for resource in data['input']:  # добавление ресурсов
+        for resource in data['input']:
+            # добавление ресурсов
             self.resources.append(ProductionsToResources(
                 production_id=self.id,
                 resource_id=resource[0],
                 number=resource[1],
                 direction=0,
             ))
-        for resource in data['output']:  # добавление ресурсов
+        for resource in data['output']:
+            # добавление ресурсов
             self.resources.append(ProductionsToResources(
                 production_id=self.id,
                 resource_id=resource[0],
@@ -89,6 +93,7 @@ class Production(SqlAlchemyBase):
         self.users = new_users[:]
 
     def start(self, user):
+        # Начать производство
         self.users.append(ProductionsToUsers(
             production_id=self.id,
             user_id=user.id,

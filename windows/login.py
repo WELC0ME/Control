@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/sign_in', methods=["POST"])
 def sign_in():
+    # вход пользователя
     _request = {
         'token': request.json.get('token', ''),
         'nickname': request.json.get('nickname', ''),
@@ -22,7 +23,9 @@ def sign_in():
         return jsonify({
             'result': 'unknown nickname'
         })
+        # нет такого пользователя
     if not user.check_password(_request['password']):
+        # неверный пароль
         return jsonify({
             'result': 'incorrect password'
         })
@@ -36,6 +39,7 @@ def sign_in():
 
 @config.APP.route('/api/sign_up', methods=["POST"])
 def sign_up():
+    # регистрация пользователей
     _request = {
         'token': request.json.get('token', ''),
         'nickname': request.json.get('nickname', ''),
@@ -49,6 +53,7 @@ def sign_up():
         return jsonify({
             'result': 'nickname too short'
         })
+        # слишком короткое имя пользователя
     if len(_request['password']) < 4:
         return jsonify({
             'result': 'password too short'
@@ -61,12 +66,14 @@ def sign_up():
         return jsonify({
             'result': 'user with same nickname is already exist'
         })
+    # добавление пользователя в базу
     user = User()
     user.apply_pattern(_request)
     db_sess.add(user)
     db_sess.commit()
     resource_patterns = eval(open('static/core/resources.txt',
                                   'r', encoding='utf8').read())
+    # добавление ресурсов
     for pattern in resource_patterns:
         users_to_resources = UsersToResources()
         users_to_resources.create(user, pattern)

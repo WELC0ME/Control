@@ -7,6 +7,7 @@ import random
 
 @config.APP.route('/api/bets', methods=['POST'])
 def get_bets():
+    # получить ставки
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -23,6 +24,7 @@ def get_bets():
             db_sess.commit()
     bets = db_sess.query(Bet).all()
     while len(bets) < random.randint(15, 25):
+        # добавление ставок
         new_bet = Bet()
         new_bet.generate()
         db_sess.add(new_bet)
@@ -37,6 +39,7 @@ def get_bets():
 
 @config.APP.route('/api/do_bet', methods=['POST'])
 def do_bet():
+    # сделать ставку
     _request = {
         'token': request.json.get('token', ''),
         'bet_id': request.json.get('bet_id', ''),

@@ -42,6 +42,7 @@ class Deal(SqlAlchemyBase):
         }
 
     def create(self, options, user):
+        # создать сделку, на вход - необходимые ресурсы и пользователь
         if options['input'] == options['output']:
             return {
                 'result': 'same resources'

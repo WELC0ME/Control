@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/admin/init', methods=["POST"])
 def init():
+    # инициализация
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -18,8 +19,10 @@ def init():
     names = [i.name for i in resources]
     patterns = eval(open('static/core/resources.txt',
                          'r', encoding='utf8').read())
+    # ресурсы
     for pattern in patterns:
         if pattern['name'] not in names:
+            # создание ресурсов
             new_resource = Resource()
             new_resource.apply_pattern(pattern)
             db_sess.add(new_resource)

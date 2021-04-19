@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/stock_exchange', methods=['POST'])
 def stock_exchange():
+    # биржа
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -24,6 +25,7 @@ def stock_exchange():
 
 @config.APP.route('/api/create', methods=['POST'])
 def create():
+
     _request = {
         'token': request.json.get('token', ''),
         'input': request.json.get('input', ''),
@@ -38,6 +40,7 @@ def create():
     db_sess = create_session()
     user = db_sess.query(User).get(config.USER_ID)
     new_deal = Deal()
+    # создание сделки
 
     res = new_deal.create(_request, user)
     if res:
@@ -55,6 +58,7 @@ def create():
 
 @config.APP.route('/api/accept', methods=['POST'])
 def accept():
+    # принять сделку
     _request = {
         'token': request.json.get('token', ''),
         'deal_id': request.json.get('deal_id', ''),

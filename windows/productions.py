@@ -6,6 +6,7 @@ import config
 
 @config.APP.route('/api/productions', methods=['POST'])
 def get_productions():
+    # получение ппроизводств
     _request = {
         'token': request.json.get('token', ''),
     }
@@ -71,6 +72,7 @@ def promote_production():
 
 @config.APP.route('/api/start_production', methods=['POST'])
 def start_production():
+    # начать производство
     _request = {
         'token': request.json.get('token', ''),
         'production_id': request.json.get('production_id', ''),

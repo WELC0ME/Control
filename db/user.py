@@ -17,7 +17,7 @@ class User(SqlAlchemyBase):
 
     resources = orm.relation('UsersToResources', back_populates='user')
     bets = orm.relation("UsersToBets", back_populates='user')
-
+    # связь с другими таблицами
     last_energy = sqlalchemy.Column(sqlalchemy.Integer)
 
     def get_energy(self):
@@ -111,6 +111,7 @@ class User(SqlAlchemyBase):
         self.last_energy = int(TIME.now())
 
     def create_deal(self, deal):
+        # начать сделку
         for i in self.resources:
             if i.resource.id == deal.input_resource.id:
                 if int(i.number) < int(deal.input_number):
@@ -127,6 +128,7 @@ class User(SqlAlchemyBase):
                 break
 
     def send_deal(self, deal):
+        # отправить сделку
         for i in self.resources:
             if i.resource.id == deal.output_resource.id:
                 if int(i.number) < int(deal.output_number):

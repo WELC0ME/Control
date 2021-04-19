@@ -4,7 +4,7 @@ from .db_session import SqlAlchemyBase
 
 
 class ProductionsToResources(SqlAlchemyBase):
-    #
+    # модель для связи производств и ресурсов
     __tablename__ = 'productions_to_resources'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
@@ -18,3 +18,4 @@ class ProductionsToResources(SqlAlchemyBase):
 
     production = orm.relation("Production")
     resource = orm.relation("Resource")
+    # для связи с другими таблицами

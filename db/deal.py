@@ -48,6 +48,8 @@ class Deal(SqlAlchemyBase):
                 'result': 'same resources'
             }
         for resource in resources:
+            print(resource.name, options['input'].lower().replace(' ', '_'),
+                  options['output'].lower().replace(' ', '_'), resource.id)
             if resource.name == options['input'].lower().replace(' ', '_'):
                 self.input_resource_id = resource.id
             if resource.name == options['output'].lower().replace(' ', '_'):

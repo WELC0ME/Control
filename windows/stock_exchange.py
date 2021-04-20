@@ -39,10 +39,11 @@ def create():
         })
     db_sess = create_session()
     user = db_sess.query(User).get(config.USER_ID)
+    resources = db_sess.query(Resource).all()
     new_deal = Deal()
     # создание сделки
 
-    res = new_deal.create(_request, user)
+    res = new_deal.create(_request, user, resources)
     if res:
         return jsonify(res)
     res = user.create_deal(new_deal)

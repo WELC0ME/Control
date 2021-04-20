@@ -41,17 +41,24 @@ class Deal(SqlAlchemyBase):
             'active': self.user_id != config.USER_ID,
         }
 
-    def create(self, options, user):
+    def create(self, options, user, resources):
         # создать сделку, на вход - необходимые ресурсы и пользователь
         if options['input'] == options['output']:
             return {
                 'result': 'same resources'
             }
-        self.input_resource = options['input'].lower().replace(' ', '_')
-        self.output_resource = options['output'].lower().replace(' ', '_')
+        for resource in resources:
+            if resource.name == options['input'].lower().replace(' ', '_'):
+                self.input_resource_id = resource.id
+            if resource.name == options['output'].lower().replace(' ', '_'):
+                self.output_resource_id = resource.id
         try:
             self.input_number = int(options['input_number'])
             self.output_number = int(options['output_number'])
+            if self.input_number <= 0 or self.output_number <= 0:
+                return {
+                    'result': 'incorrect number'
+                }
         except ValueError:
             return {
                 'result': 'not a number'

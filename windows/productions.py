@@ -12,7 +12,7 @@ def get_productions():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
 
@@ -56,7 +56,7 @@ def promote_production():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     production = db_sess.query(Production).get(_request['production_id'])
@@ -83,7 +83,7 @@ def start_production():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     production = db_sess.query(Production).get(_request['production_id'])

@@ -12,7 +12,7 @@ def rating():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     users = db_sess.query(User).all()

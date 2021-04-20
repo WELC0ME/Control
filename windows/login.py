@@ -14,7 +14,7 @@ def sign_in():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     user = db_sess.query(User).filter(
@@ -49,7 +49,7 @@ def sign_up():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     if len(_request['nickname']) < 4:
         return jsonify({

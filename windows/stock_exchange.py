@@ -12,7 +12,7 @@ def stock_exchange():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     deals = db_sess.query(Deal).all()
@@ -35,7 +35,7 @@ def create():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     user = db_sess.query(User).get(config.USER_ID)
@@ -68,7 +68,7 @@ def accept():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     deal = db_sess.query(Deal).get(_request['deal_id'])

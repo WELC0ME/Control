@@ -199,6 +199,20 @@ const App = {
                     })
             }
         },
+
+        logout() {
+            axios.post(this.server + 'logout', {
+                'token': this.token,
+            })
+                .then(response => {
+                    if (response.data.result != 'OK') {
+                        this.error = response.data.result
+                    };
+                })
+                .catch(error => {
+                    this.error = 'unknown error';
+                })
+        },
     }
 }
 

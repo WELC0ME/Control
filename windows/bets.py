@@ -13,7 +13,7 @@ def get_bets():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     bets = db_sess.query(Bet).all()
@@ -48,7 +48,7 @@ def do_bet():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     bet = db_sess.query(Bet).get(_request['bet_id'])

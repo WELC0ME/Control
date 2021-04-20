@@ -12,7 +12,7 @@ def init():
     }
     if not config.check_token(_request['token']):
         return jsonify({
-            'error': 'incorrect token'
+            'result': 'incorrect token'
         })
     db_sess = create_session()
     resources = db_sess.query(Resource).all()

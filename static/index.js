@@ -63,15 +63,15 @@ const App = {
     methods: {
 
         move(newLocation) {
-            this.location = newLocation;
-            console.log(this.location)
+            this.location = newLocation
             if (
                 this.location != 'profile' &&
                 this.location != 'menu' &&
                 this.location != 'rules'
             ) {
                 this.info.data.accepted = 0
-                setInterval(this.getData, 1000)
+                // setInterval(this.getData, 1000)
+                this.getData()
             };
         },
 
@@ -81,7 +81,6 @@ const App = {
 
         login(_type) {
             this.info.data.accepted = 0
-            console.log('LOGIN', this.$refs.nickname.value)
             axios.post(this.server + _type, {
                 'token': this.token,
                 'nickname': this.$refs.nickname.value,

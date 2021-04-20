@@ -208,7 +208,7 @@ const App = {
                     if (response.data.result != 'OK') {
                         this.error = response.data.result
                     } else {
-                        this.user = {
+                        this.info.user = {
                             "authorized": false
                         }
                     };

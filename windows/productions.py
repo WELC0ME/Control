@@ -87,6 +87,10 @@ def start_production():
         })
     db_sess = create_session()
     production = db_sess.query(Production).get(_request['production_id'])
+    if production.to_dict()['active']:
+        return jsonify({
+            'result': 'production already started'
+        })
     user = db_sess.query(User).get(config.USER_ID)
     res = user.start(production)
     if res:

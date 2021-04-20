@@ -207,6 +207,10 @@ const App = {
                 .then(response => {
                     if (response.data.result != 'OK') {
                         this.error = response.data.result
+                    } else {
+                        this.user = {
+                            "authorized": false
+                        }
                     };
                 })
                 .catch(error => {

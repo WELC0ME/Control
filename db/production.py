@@ -85,7 +85,7 @@ class Production(SqlAlchemyBase):
         for association in self.users:
             if TIME.get(association.time) > self.working_time:
                 association.user.on_production_complete([
-                    [i.resource.name, i.number]
+                    [i.resource.id, i.number]
                     for i in self.resources if i.direction == 1
                 ])
             else:

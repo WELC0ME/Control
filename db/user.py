@@ -88,8 +88,11 @@ class User(SqlAlchemyBase):
 
     def on_production_complete(self, profit):
         for element in profit:
+            print(element)
             for i in self.resources:
+                print(i)
                 if i.resource.id == element[0]:
+                    print('ADD')
                     i.number += element[1]
 
     def to_dict(self):

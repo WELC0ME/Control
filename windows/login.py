@@ -31,6 +31,8 @@ def sign_in():
         })
     config.USER_ID = user.id
     user.get_energy()
+    db_sess.merge(user)
+    db_sess.commit()
     return jsonify({
         'result': 'OK',
         'user': user.to_dict(),
@@ -81,6 +83,8 @@ def sign_up():
         db_sess.commit()
     config.USER_ID = user.id
     user.get_energy()
+    db_sess.merge(user)
+    db_sess.commit()
     return jsonify({
         'result': 'OK',
         'user': user.to_dict(),

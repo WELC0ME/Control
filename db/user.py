@@ -35,8 +35,6 @@ class User(SqlAlchemyBase):
 
     def start(self, production):
         # начать производство
-        print(self.to_dict())
-        print(production.to_dict())
         for i in production.resources:
             if i.direction == 0:
                 for k in self.resources:
@@ -102,8 +100,7 @@ class User(SqlAlchemyBase):
         return {
             'authorized': True,
             'nickname': self.nickname,
-            'resources': {i.resource.name: i.number for i in self.resources
-            },
+            'resources': {i.resource.name: i.number for i in self.resources},
         }
 
     def apply_pattern(self, pattern):

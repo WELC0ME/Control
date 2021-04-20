@@ -65,6 +65,10 @@ def promote_production():
     if res:
         return jsonify(res)
     production.promote(_request['param'])
+    db_sess.merge(user)
+    db_sess.commit()
+    db_sess.merge(production)
+    db_sess.commit()
     return jsonify({
         'result': 'OK'
     })
@@ -88,6 +92,10 @@ def start_production():
     if res:
         return jsonify(res)
     production.start(user)
+    db_sess.merge(user)
+    db_sess.commit()
+    db_sess.merge(production)
+    db_sess.commit()
     return jsonify({
         'result': 'OK'
     })

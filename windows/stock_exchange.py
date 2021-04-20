@@ -52,6 +52,8 @@ def create():
 
     db_sess.add(new_deal)
     db_sess.commit()
+    db_sess.merge(user)
+    db_sess.commit()
     return jsonify({
         'result': 'OK'
     })
@@ -81,6 +83,10 @@ def accept():
     author.get_deal(deal)
 
     db_sess.delete(deal)
+    db_sess.commit()
+    db_sess.merge(user)
+    db_sess.commit()
+    db_sess.merge(author)
     db_sess.commit()
     return jsonify({
         'result': 'OK'

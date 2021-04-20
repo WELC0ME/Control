@@ -77,10 +77,7 @@ class User(SqlAlchemyBase):
             bet_id=bet.id,
             side=side,
             value=int(value)
-        ))  # добавление сделки
-        return {
-            'result': 'OK',
-        }  # если ставка прошла успешно
+        ))  # добавление ставки
 
     def on_bet_complete(self, result, coefficient, association):
         if result == association.side:

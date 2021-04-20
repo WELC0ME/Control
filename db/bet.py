@@ -17,7 +17,7 @@ class Bet(SqlAlchemyBase):
     life_time = sqlalchemy.Column(sqlalchemy.Integer)
     coefficient = sqlalchemy.Column(sqlalchemy.Integer)
     users = orm.relation("UsersToBets", back_populates='bet')
-    # связь с другой твблицей
+    # связь с другой таблицей
 
     def generate(self):
         # генерация
@@ -30,6 +30,12 @@ class Bet(SqlAlchemyBase):
     def is_complete(self):
         # завершилась ли ставка
         return TIME.get(int(self.created)) > int(self.life_time)
+
+    def update(self, side, value):
+        if side == 0:
+            self.side_01 += value
+        elif side == 1:
+            self.side_02 += value
 
     def on_complete(self):
 

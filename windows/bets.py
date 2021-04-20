@@ -53,8 +53,18 @@ def do_bet():
     db_sess = create_session()
     bet = db_sess.query(Bet).get(_request['bet_id'])
     user = db_sess.query(User).get(config.USER_ID)
-    return jsonify(user.do_bet(
+    res = user.do_bet(
         bet,
         _request['side'],
         _request['value']
-    ))
+    )
+    if res:
+        return jsonify(res)
+    bet.update(_request['side'], _request['value'])
+    db_sess.merge(user)
+    db_sess.commit()
+    db_sess.merge(bet)
+    db_sess.commit()
+    return jsonify({
+        'result': 'OK'
+    })

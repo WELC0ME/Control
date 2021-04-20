@@ -35,6 +35,8 @@ class User(SqlAlchemyBase):
 
     def start(self, production):
         # начать производство
+        print(self.to_dict())
+        print(production.to_dict())
         for i in production.resources:
             if i.direction == 0:
                 for k in self.resources:

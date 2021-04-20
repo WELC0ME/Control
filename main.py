@@ -15,5 +15,4 @@ def index():
 
 if __name__ == '__main__':
     # начало работы программы
-    # config.APP.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
-    config.APP.run()
+    config.APP.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))

@@ -4,7 +4,7 @@ from db.__all_models import *
 import config
 
 
-@config.APP.route('/api/rating', methods=["POST"])
+@config.APP.route('/api/rating', methods=["POST", "OPTIONS"])
 def rating():
     # рейтинг пользователей
     _request = {
@@ -21,5 +21,5 @@ def rating():
     return jsonify({
         'result': 'OK',
         'data': [user.to_dict() for user in users],
-    })
+    }).headers.add("Access-Control-Allow-Origin", "*")
     # возвращает результат

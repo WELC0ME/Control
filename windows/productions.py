@@ -87,7 +87,7 @@ def start_production():
         })
     db_sess = create_session()
     production = db_sess.query(Production).get(_request['production_id'])
-    print('start_production', production.iod, _request['production_id'])
+    print('start_production', production.id, _request['production_id'])
     print(production.to_dict()['active'])
     if production.to_dict()['active']:
         return jsonify({

@@ -33,7 +33,7 @@ class Deal(SqlAlchemyBase):
     def to_dict(self):
         # приводит к виду словаря
         return {
-            'author': self.user,
+            'author': self.user.nickname,
             'input_resource': self.input_resource.name,
             'input_number': self.input_number,
             'output_resource': self.output_resource.name,

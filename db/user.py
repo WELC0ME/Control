@@ -87,14 +87,10 @@ class User(SqlAlchemyBase):
                     break
 
     def on_production_complete(self, profit):
-        print('COMPLETE')
         for element in profit:
             for i in self.resources:
-                print(i)
                 if i.resource.id == element[0]:
-                    print(i.resource_id, i.number)
                     i.number += element[1]
-                    print(i.resource_id, i.number)
 
     def to_dict(self):
         # приводит к виду словаря

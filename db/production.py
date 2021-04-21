@@ -91,6 +91,7 @@ class Production(SqlAlchemyBase):
             else:
                 new_users.append(association)
         self.users = new_users[:]
+        print(self.users)
 
     def start(self, user):
         # Начать производство

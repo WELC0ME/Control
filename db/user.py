@@ -47,7 +47,9 @@ class User(SqlAlchemyBase):
             if i.direction == 0:
                 for k in self.resources:
                     if k.resource_id == i.resource_id:
+                        print(k.resource.name, k.number, i.number)
                         k.number -= i.number
+                        print(k.resource.name, k.number, i.number)
 
     def promote(self, production):
         # метод вычитает у пользователя деньги

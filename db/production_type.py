@@ -13,4 +13,4 @@ class ProductionType(SqlAlchemyBase):
 
     def apply_pattern(self, pattern):
         # добавление данных об объекте
-        self.name = pattern['name']
+        self.name = pattern['title']

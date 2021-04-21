@@ -70,9 +70,9 @@ const App = {
                 this.location != 'rules'
             ) {
                 this.info.data.accepted = 0
-                setInterval(this.getData, 1000)
-                // this.getData()
-            };
+                // setInterval(this.getData, 1000)
+                this.getData()
+            }
         },
 
         getLocation(location) {

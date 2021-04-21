@@ -35,9 +35,12 @@ class User(SqlAlchemyBase):
 
     def start(self, production):
         # начать производство
+        print('user_start1')
         for i in production.resources:
+            print(i.direction)
             if i.direction == 0:
                 for k in self.resources:
+                    print(k.resource.name)
                     if k.resource_id == i.resource_id:
                         if k.number < i.number:
                             return {

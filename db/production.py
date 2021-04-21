@@ -91,12 +91,14 @@ class Production(SqlAlchemyBase):
             else:
                 new_users.append(association)
         self.users = new_users[:]
-        print(self.users)
+        print('on_complete', self.users)
 
     def start(self, user):
         # Начать производство
+        print('production_start1', self.users)
         self.users.append(ProductionsToUsers(
             production_id=self.id,
             user_id=user.id,
             time=TIME.now()
         ))
+        print('production_start2', self.users)

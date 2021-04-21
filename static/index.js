@@ -58,13 +58,14 @@ const App = {
                 this.info.user.authorized = false;
                 this.info.data.accepted = 1;
             })
-        setInterval(this.getData, 1000)
+        // setInterval(this.getData, 1000)
     },
     methods: {
 
         move(newLocation) {
             this.location = newLocation
             this.info.data.accepted = 0
+            this.getData()
         },
 
         getLocation(location) {

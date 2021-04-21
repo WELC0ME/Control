@@ -373,7 +373,7 @@
   font-size: 1.2rem;
 }
 
-.deal-item-icon-active, .deal-item-icon-inactive {
+.deal-item-icon-active i, .deal-item-icon-inactive i {
   width: 50px;
   height: 50px;
   background: #2c3a47;
@@ -388,7 +388,7 @@
   margin-top: 10px;
 }
 
-.deal-item-icon-active:hover {
+.deal-item-icon-active i:hover {
   opacity: .9;
   transform: scale(1.1);
   transform: rotate(90deg);
@@ -396,7 +396,7 @@
   transition: 0.4s;
 }
 
-.deal-item-icon-inactive:hover {
+.deal-item-icon-inactive i:hover {
   opacity: .9;
   transform: scale(1.1);
   transform: rotate(90deg);

@@ -58,21 +58,13 @@ const App = {
                 this.info.user.authorized = false;
                 this.info.data.accepted = 1;
             })
-        //
+        setInterval(this.getData, 1000)
     },
     methods: {
 
         move(newLocation) {
             this.location = newLocation
-            if (
-                this.location != 'profile' &&
-                this.location != 'menu' &&
-                this.location != 'rules'
-            ) {
-                this.info.data.accepted = 0
-                // setInterval(this.getData, 1000)
-                this.getData()
-            }
+            this.info.data.accepted = 0
         },
 
         getLocation(location) {
@@ -106,9 +98,15 @@ const App = {
             })
                 .then(response => {
                     if (response.data.result == 'OK') {
-                        this.info.data = {
-                            'data': response.data.data,
-                            'accepted': 1,
+                        if (this.location == 'profile') {
+                            this.info.user = response.data.user
+                            this.info.data.accepted = 1
+                        }
+                        else {
+                            this.info.data = {
+                                'data': response.data.data,
+                                'accepted': 1,
+                            }
                         }
                     } else {
                         this.error = response.data.result

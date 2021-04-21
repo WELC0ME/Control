@@ -35,12 +35,9 @@ class User(SqlAlchemyBase):
 
     def start(self, production):
         # начать производство
-        print('user_start1')
         for i in production.resources:
-            print(i.direction)
             if i.direction == 0:
                 for k in self.resources:
-                    print(k.resource.name)
                     if k.resource_id == i.resource_id:
                         if k.number < i.number:
                             return {
@@ -50,9 +47,7 @@ class User(SqlAlchemyBase):
             if i.direction == 0:
                 for k in self.resources:
                     if k.resource_id == i.resource_id:
-                        print(k.resource.name, k.number, i.number)
                         k.number -= i.number
-                        print(k.resource.name, k.number, i.number)
 
     def promote(self, production):
         # метод вычитает у пользователя деньги
@@ -92,13 +87,14 @@ class User(SqlAlchemyBase):
                     break
 
     def on_production_complete(self, profit):
+        print('COMPLETE')
         for element in profit:
-            print(element)
             for i in self.resources:
                 print(i)
                 if i.resource.id == element[0]:
-                    print('ADD')
+                    print(i.resource_id, i.number)
                     i.number += element[1]
+                    print(i.resource_id, i.number)
 
     def to_dict(self):
         # приводит к виду словаря

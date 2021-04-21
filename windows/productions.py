@@ -87,19 +87,14 @@ def start_production():
         })
     db_sess = create_session()
     production = db_sess.query(Production).get(_request['production_id'])
-    print('start_production', production.id, _request['production_id'])
-    print(production.to_dict()['active'])
     if not production.to_dict()['active']:
         return jsonify({
             'result': 'production already started'
         })
     user = db_sess.query(User).get(config.USER_ID)
-    print('f user start')
     res = user.start(production)
-    print(res)
     if res:
         return jsonify(res)
-    print('f production start')
     production.start(user)
     db_sess.merge(user)
     db_sess.commit()

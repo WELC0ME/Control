@@ -33,7 +33,7 @@ def init():
     patterns = eval(open('static/core/productions.txt',
                          'r', encoding='utf8').read())
     for pattern in patterns:
-        if pattern['name'] not in names:
+        if pattern['title'] not in names:
             new_type = ProductionType()
             new_type.apply_pattern(pattern)
             db_sess.add(new_type)

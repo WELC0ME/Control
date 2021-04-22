@@ -63,20 +63,26 @@ class User(SqlAlchemyBase):
 
     def do_bet(self, bet, side, value):
         # сделать ставку
+        try:
+            value_ = int(value)
+        except ValueError:
+            return {
+                'result': 'incorrect value',
+            }
         for i in self.resources:
             if i.resource.name == 'coin':
-                if int(i.number) < int(value):
+                if int(i.number) < value_:
                     return {
                         'result': 'not enough money',
                     }
                 else:
-                    i.number = int(i.number) - int(value)
+                    i.number = int(i.number) - value_
                     break
         self.bets.append(UsersToBets(
             user_id=self.id,
             bet_id=bet.id,
             side=side,
-            value=int(value)
+            value=value_
         ))  # добавление ставки
 
     def on_bet_complete(self, result, coefficient, association):

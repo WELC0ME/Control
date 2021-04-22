@@ -125,7 +125,7 @@ const App = {
             else {
                 axios.post(this.server + 'do_bet', {
                   'token': this.token,
-                  'index': index,
+                  'bet_id': index,
                   'side': side - 1,
                   'value': this.$refs.bet.value
                 })

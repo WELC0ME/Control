@@ -12,10 +12,10 @@ __factory = None
 def create_session() -> Session:
     global __factory
 
-    # if __factory:
-    #     factory = __factory()
-    #     factory.rollback()
-    #     return factory
+    if __factory:
+        factory = __factory()
+        factory.rollback()
+        return factory
 
     engine = sa.create_engine('postgresql' + os.environ['DATABASE_URL'][8:],
                               echo=False)

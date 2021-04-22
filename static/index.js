@@ -124,12 +124,12 @@ const App = {
             }
             else {
                 console.log(this.$refs)
-                console.log(this.$refs['bet_test' + (index - 1)])
+                console.log(this.$refs['bet_test'][index - 1])
                 axios.post(this.server + 'do_bet', {
                   'token': this.token,
                   'bet_id': index,
                   'side': side - 1,
-                  'value': this.$refs['bet_test' + (index - 1)].value
+                  'value': this.$refs['bet_test'][index - 1].value
                 })
                     .then(response => {
                         if (response.data.result != 'OK') {
@@ -139,7 +139,7 @@ const App = {
                     .catch(error => {
                         this.error = 'unknown error';
                     })
-                this.$refs['bet_test' + (index - 1)].value = ''
+                this.$refs['bet_test'][index - 1].value = ''
             }
         },
 

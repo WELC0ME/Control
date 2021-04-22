@@ -182,7 +182,7 @@ const App = {
 
         accept(index) {
             if (!this.info.user.authorized) {
-                this.error = 'Authorize to accept bets'
+                this.error = 'Authorize to accept deals'
             }
             else {
                 axios.post(this.server + 'accept', {

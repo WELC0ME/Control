@@ -135,7 +135,7 @@ const App = {
                         };
                     })
                     .catch(error => {
-                        this.error = 'unknown error';
+                        this.error = 'not enough money';
                     })
                 this.$refs.bet.value = ''
             }

@@ -67,7 +67,11 @@ class User(SqlAlchemyBase):
             value_ = int(value)
         except ValueError:
             return {
-                'result': 'incorrect value',
+                'result': 'not a number',
+            }
+        if value_ <= 0:
+            return {
+                'result': 'negative number',
             }
         for i in self.resources:
             if i.resource.name == 'coin':

@@ -186,7 +186,7 @@ const App = {
             else {
                 axios.post(this.server + 'accept', {
                     'token': this.token,
-                    'deal_id': index,
+                    'bet_id': index,
                 })
                     .then(response => {
                         if (response.data.result != 'OK') {

@@ -128,7 +128,7 @@ const App = {
                   'token': this.token,
                   'bet_id': index,
                   'side': side - 1,
-                  'value': this.$refs.bet.value
+                  'value': this.$refs.bet_test.value
                 })
                     .then(response => {
                         if (response.data.result != 'OK') {

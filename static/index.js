@@ -123,6 +123,7 @@ const App = {
                 this.error = 'Authorize to do bets'
             }
             else {
+                console.log(index)
                 axios.post(this.server + 'do_bet', {
                   'token': this.token,
                   'bet_id': index,
@@ -135,7 +136,7 @@ const App = {
                         };
                     })
                     .catch(error => {
-                        this.error = 'not enough money';
+                        this.error = 'unknown error';
                     })
                 this.$refs.bet.value = ''
             }

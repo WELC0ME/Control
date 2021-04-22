@@ -46,6 +46,7 @@ def do_bet():
         'side': request.json.get('side', ''),
         'value': request.json.get('value', ''),
     }
+    print(_request['bet_id'])
     if not config.check_token(_request['token']):
         return jsonify({
             'result': 'incorrect token'

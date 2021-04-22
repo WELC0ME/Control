@@ -123,6 +123,7 @@ const App = {
                 this.error = 'Authorize to do bets'
             }
             else {
+                console.log(this.$refs.bet_test)
                 axios.post(this.server + 'do_bet', {
                   'token': this.token,
                   'bet_id': index,
